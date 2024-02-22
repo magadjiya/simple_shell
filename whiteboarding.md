@@ -1,4 +1,4 @@
-##Task 2
+## Task 2
 
 cisfun $: ls -l
 
@@ -13,7 +13,7 @@ execve x linked list
 ## Task 3
 __Task Requirements__
 - Handle the ``PATH``
-- ``fork`` must not be called if the command doesn't exist
+
 
 ``PATH``
 The ``PATH`` is an environment variable available to the process running the ``.\sh`` program that contains a colon-separated list of directories where the system looks for executable files.
@@ -28,6 +28,14 @@ $ ls -l
 AUTHORS    exec_multiple_cmds.c  whiteboarding.md
 README.md
 ```
-The two commands produce thesame result. Here's why. 
-* `execve()` can successfully execute the command `/bin/ls` togther with the flag `-l` without checking if that file is exists.
-* However `execve()` cannot successfully execte the `ls` command because it is not a valid command. To Although `ls` is a tracked alias for `/bin/ls` the pr
+The two commands produce thesame result because
+* `execve()` can successfully execute the command `/bin/ls` togther with the flag `-l` because using the absolute path the OS can locate the executable file. 
+* However it cannot successfully execute the `ls` command because its not an absolute path, a relative path or in the current working directory.
+
+In such a case, the program has to perform a search of the directories in the `PATH` variable to determine if the file `\ls` exists. 
+
+- ``fork`` must not be called if the command doesn't exist
+
+If the search is successful, only then can a child process be created using `fork()` to execute the command and it's arguments using `execve()`. I
+
+If the search is successful, a child process should not be created neither should `execve()` be called to execute the file.

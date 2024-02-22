@@ -27,8 +27,8 @@ instead, it relies on the operating system's file search mechanisms to locate th
 * **Absolute Path**
     If the provided file path in the `execve()` call is an absolute path (i.e., it starts with a "/", indicating the full path to the executable), then the system directly uses that path to execute the program.
 * **Relative Path**
-    If the provided file path is a relative path (i.e., it doesn't start with a "/"), the system searches through the directories listed in the PATH environment variable.
-    The PATH variable is a colon-separated list of directories where the system looks for executable files.
-    The directories are searched in the order they appear in the PATH. The first occurrence of the executable file with the specified name in any of these directories is executed.
+    If the provided file path is a relative path (i.e., it doesn't start with a "/"), the system searches through the directories listed in the `PATH` environment variable.
+    The `PATH` variable is a colon-separated list of directories where the system looks for executable files.
+    The directories are searched in the order they appear in the `PATH`. The first occurrence of the executable file with the specified name in any of these directories is executed.
 * **Current Working Directory:**
-    If the executable file is not found in any of the directories in the PATH, the system checks the current working directory of the process.
+    If the executable file is not found in any of the directories in the `PATH`, the system checks the current working directory of the process.
