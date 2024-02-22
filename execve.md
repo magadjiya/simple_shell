@@ -16,7 +16,7 @@
 
 `argv` is an array of pointers to strings passed to the new program as its command-line arguments.  By convention, the first of these strings (i.e., `argv[0]`) should contain the filename associated with the file being executed.  The `argv` array must be terminated by a NULL pointer.  (Thus, in the new program, `argv[argc]` will be <span style="color: red;">NULL</span>.)
 
-<u>envp</u> is an array of pointers to strings, conventionally of the form _key=value_, which are passed as the environment of the new program. The envp array must be terminated by a <span style="color: red;">NULL</span> pointer.
+`envp` is an array of pointers to strings, conventionally of the form _key=value_, which are passed as the environment of the new program. The envp array must be terminated by a <span style="color: red;">NULL</span> pointer.
 
 ### How does it work
 The `execve()` function in Unix-like operating systems is responsible for executing a new program. 
