@@ -1,18 +1,7 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
+#include "shell.h"
 
-typedef struct savecmd
-{
-	char *cmd;
-	struct savecmd *next;
-}
-savecmd_t;
-
-
-savecmd_t *addCmdEnd(savecmd_t **start, char *s);
-
+/**
+ */
 int main(int ac, char *argv[])
 {
 	(void)ac;
@@ -54,6 +43,12 @@ int main(int ac, char *argv[])
 	return (0);
 }
 
+/**
+ * addCmdEnd - links commands and flags as linked list
+ * @start: double pointer to first command
+ * @s: the command/flag
+ * Return: pointer to the first node
+ */
 savecmd_t *addCmdEnd(savecmd_t **start, char *s)
 {
 	savecmd_t *endCmd, *loopCmd;
