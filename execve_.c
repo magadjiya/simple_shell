@@ -1,7 +1,5 @@
 #include "shell.h"
 
-/**
- */
 int main(int ac, char *argv[])
 {
 	(void)ac;
@@ -30,11 +28,12 @@ int main(int ac, char *argv[])
 		/* line --> /bin/ls */
 		while (line != NULL)
 		{
-			addCmdEnd(&argarr2, line);
+
 			line = strtok(NULL, " ");
 			/* line --> -l */
 		}
-		
+
+				
 		/* line --> "/bin/ls" */
 		i = execve(argarr2[0], argarr2, NULL);
 		if (i == -1)
@@ -43,33 +42,3 @@ int main(int ac, char *argv[])
 	return (0);
 }
 
-/**
- * addCmdEnd - links commands and flags as linked list
- * @start: double pointer to first command
- * @s: the command/flag
- * Return: pointer to the first node
- */
-savecmd_t *addCmdEnd(savecmd_t **start, char *s)
-{
-	savecmd_t *endCmd, *loopCmd;
-
-	endCmd = (savecmd_t)malloc(sizeof(savecmd_t));
-	if (endCmd == NULL)
-		return (NULL);
-
-	endCmd->cmd = strdup(s);
-	endCmd->next = NULL;
-
-	if (*start == NULL)
-	{
-		*start = endCmd;
-		return (*start);
-	}
-
-	loopCmd = *start;
-	while (loopCmd->next != NULL)
-		loopCmd = loopCmd->next;
-	loopCmd->next = endCmd;
-
-	return (*start);
-}
