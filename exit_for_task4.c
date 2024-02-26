@@ -4,7 +4,7 @@
  * exit_shell - exits the shell terminal
  * @cmdline: the command line
  *
- * Return: -1 if exit is not executed, 0 or status if executed 
+ * Return: -1 if exit is not executed, 0 or status if executed
  */
 
 int exit_shell(char **cmdline)
@@ -13,6 +13,7 @@ int exit_shell(char **cmdline)
 	char *line, *linecp;
 	char *stat;
 	int status;
+
 	line = strdup(*cmdline);
 	linecp = strtok(line, "\n");
 

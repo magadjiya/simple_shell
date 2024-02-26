@@ -14,8 +14,7 @@ char *validateCmd(char *cmd)
 	struct stat st;
 	char *filePath;
 
-	/* Access the PATH variable */
-	path_val = getPATH();
+	path_val = getPATH(); /* Access the PATH variable */
 	/* Create a linked list of the directories in PATH */
 	dirList = makePathList(path_val);
 
@@ -84,29 +83,21 @@ char *absPath(char *dir, char *fileName)
 	/* "/usr/bin" + "/" + "ls" */
 	fullPath = (char *)malloc(sizeof(char) * fullLen);
 
-	/* Handling malloc fail */
-	if (fullPath == NULL)
+	if (fullPath == NULL) /* Handling malloc fail */
 		return (NULL);
 
-	/* Writing directory */
-	for (i = 0; i < dirLen; i++)
+	for (i = 0; i < dirLen; i++) /* Writing directory */
 		fullPath[i] = dir[i];
 
-	/* Writing '/' */
-	if (dir[i - 1] != '/')
+	if (dir[i - 1] != '/') /* Writing '/' */
 	{
-		fullPath[i] = '/';;
+		fullPath[i] = '/';
 		++i;
 	}
 
-	/* Writing filename */
-	for (j = 0; j < fileLen; j++)
+	for (j = 0; j < fileLen; j++) /* Writing filename */
 		fullPath[j + i] = fileName[j];
-	
 	fullPath[i + j] = '\0';
 
 	return (fullPath);
 }
-
-
-

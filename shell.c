@@ -11,8 +11,7 @@
 
 int main(int ac, char *argv[], char *envp[])
 {
-	/* Variables for getline() */
-	char *line = NULL;
+	char *line = NULL; /* Getline variables */
 	size_t n = 0;
 	int status;
 	(void)envp;
@@ -23,23 +22,18 @@ int main(int ac, char *argv[], char *envp[])
 		exit(EXIT_SUCCESS);
 	}
 
-	/* Interactive Mode */
-	if (isatty(STDIN_FILENO))
+	if (isatty(STDIN_FILENO)) /* Interactive Mode */
 	{
-		/* Display prompt */
 		printf("$ ");
 
-		/* Process command line arguments */
-		while (getline(&line, &n, stdin) != -1)
+		while (getline(&line, &n, stdin) != -1) /* Process cmd arguments */
 		{
-			/* No command is given */
-			if (*line == '\n')
+			if (*line == '\n') /* No command */
 			{
 				printf("$ ");
 				continue;
 			}
-			/* Check if command is a shell builtin */
-			exit_shell(&line);
+			exit_shell(&line); /* Check if builtin shell command */
 
 			status = printenv(line);
 			if (status)
@@ -47,19 +41,14 @@ int main(int ac, char *argv[], char *envp[])
 				printf("$ ");
 				continue;
 			}
-			/* Processing Command */
-
-			/* Other Command */
-			processCmds(line, argv, 1);
+			processCmds(line, argv, 1); /* Other commamds */
 		}
 		printf("\n");
 	}
-	/* Non-interactive mode */
-	else
+	else /* Non-interactive mode */
 		while ((getline(&line, &n, stdin)) != -1)
 			processCmds(line, argv, 0);
 
-	/* Free up allocated memory space */
-	free(line);
+	free(line); /* Free up allocated memory space */
 	return (0);
 }

@@ -19,10 +19,12 @@
 
 typedef struct pathdir
 {
-        char *dir;
-        struct pathdir *next_dir;
+	char *dir;
+	struct pathdir *next_dir;
 } pdir_t;
 
+
+/* Function Prototypes */
 int processCmds(char *cmdline, char **argv, int mode);
 
 void free_arr(char **arr);
@@ -46,22 +48,5 @@ int printenv(char *cmdline);
 int exit_shell(char **cmdline);
 
 int printenv(char *cmdline);
-
-/**
- * struct savecmd - saves commands that have flags
- * @cmd: the command
- * @next: pointer to the flags
- */
-typedef struct savecmd
-{
-	char *cmd;
-	struct savecmd *next;
-}
-savecmd_t;
-
-/* Function Prototypes */
-char *changeLastChar(char *line, char c);
-void handleCmd(char *line);
-savecmd_t *addCmdEnd(savecmd_t **start, char *s);
 
 #endif /* SHELL_H */
