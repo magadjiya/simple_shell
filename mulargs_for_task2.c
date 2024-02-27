@@ -5,11 +5,12 @@
  * @cmdline: the line of command to process
  * @argv: array of arguments to shell program
  * @mode: the mode of the shell (interactive or non-interactive)
+ * @dirHead: the head of the path directory linked list
  *
  * Return: 0 on success, -1 on failure
  */
 
-int processCmds(char *cmdline, char **argv, int mode)
+int processCmds(char *cmdline, char **argv, int mode, pdir_t **dirHead)
 {
 	char *line, *fullCmd, *cmd;
 	char **arr = NULL;
@@ -32,7 +33,6 @@ int processCmds(char *cmdline, char **argv, int mode)
 	{
 		arr[i] = cmd; /* Store the argument into the array */
 		cmd = strtok(NULL, " "); /* Get the next argument */
-		printf("Address of cmd %p\n", (void*)cmd);
 		++i;
 		/* Resize the argument array to accomodate the next argument */
 		arr = (char **)reallocarray(arr, i + 1, sizeof(char *));
@@ -42,7 +42,7 @@ int processCmds(char *cmdline, char **argv, int mode)
 	arr[i] = NULL;
 
 	/* Initiate Task 3 - Validate the command @ arr[0] */
-	if ((fullCmd = validateCmd(arr[0])) == NULL) /* Invalid command */
+	if ((fullCmd = validateCmd(arr[0], dirHead)) == NULL) /* Invalid command */
 		printf("%s: 1: %s: not found\n", argv[0], arr[0]);
 	else /* Valid command */
 	{
