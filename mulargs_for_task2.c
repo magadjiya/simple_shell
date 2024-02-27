@@ -23,7 +23,7 @@ int processCmds(char *cmdline, char **argv, int mode)
 
 	/* Allocate memory to array for storing the argument */
 	arr = (char **)malloc(sizeof(char *) * 1);
-	if (arr == NULL) /* Handle malloc fail */
+	if (arr == NULL)
 		return (-1);
 
 	/* Get other arguments (if there are) and store them in the argument array */
@@ -35,18 +35,16 @@ int processCmds(char *cmdline, char **argv, int mode)
 		++i;
 		/* Resize the argument array to accomodate the next argument */
 		arr = (char **)reallocarray(arr, i + 1, sizeof(char *));
-		if (arr == NULL) /* Handle reallocarray fail */
+		if (arr == NULL)
 			return (-1);
-	} /* <-- Loop terminates --> */
-
-	/* Set the last element of the argument array to NULL */
+	}
 	arr[i] = NULL;
 
 	/* Initiate Task 3 - Validate the command @ arr[0] */
-	if ((fullCmd = validateCmd(arr[0])) == NULL) /* Invalid command */
+	fullCmd = validateCmd(arr[0]);
+	if (fullCmd == NULL) /* Invalid command */
 	{
 		printf("fullCmd -> %s\n", fullCmd);
-		printf("%s: 1: %s: not found\n", argv[0], arr[0]);
 	}
 	else /* Valid command */
 	{
@@ -59,7 +57,7 @@ int processCmds(char *cmdline, char **argv, int mode)
 			if ((execve(fullCmd, arr, NULL)) == -1)
 			{
 				/* Display error message */
-				/*printf("%s: 1: No such file or directory\n", argv[0]);*/
+				printf("%s: 1: No such file or directory\n", argv[0]);
 				/* free up allocated memory spaces in child process */
 				free_arr(arr);
 				free(cmdline);
@@ -74,14 +72,18 @@ int processCmds(char *cmdline, char **argv, int mode)
 	}
 	/* Display prompt only in interactive mode */
 	if (mode == 1)
-		printf("$ ");
+		printf("($) ");
 
-	/* free up allocated memory spaces in parent process */
+	free(line);
 	free(fullCmd);
-	free_arr(arr);
+	free(arr);
 	return (0);
 }
 
+/**
+ * free_arr - frees an array
+ * @arr: the array
+ */
 void free_arr(char **arr)
 {
 	int i = 0;
@@ -96,4 +98,3 @@ void free_arr(char **arr)
 		free(arr);
 	}
 }
-		
