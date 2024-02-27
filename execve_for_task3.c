@@ -3,20 +3,18 @@
 /**
  * validateCmd - checks if a command exists
  * @cmd: the command to validate
+ * @dirHead: pointer to the the linked list of PATH directories
  *
  * Return: 1 if cmd exits, 0 if it doesn't exist
  */
 
-char *validateCmd(char *cmd)
+char *validateCmd(char *cmd, pdir_t **dirHead)
 {
-	char *path_val;
-	pdir_t *dirList, *tempDir;
+	pdir_t *dirPtr;
 	struct stat st;
 	char *filePath;
 
-	path_val = getPATH(); /* Access the PATH variable */
-	/* Create a linked list of the directories in PATH */
-	dirList = makePathList(path_val);
+	dirPtr = *dirHead;
 
 	/* Handle different command format */
 	switch (*cmd)
@@ -25,29 +23,20 @@ char *validateCmd(char *cmd)
 		case '/':
 		/* Relative Path */
 		case '.':
-			free_pdir(dirList);
 			if (lstat(cmd, &st) == 0)
 				return (cmd);
 			else
 				return (NULL);
 		default:
-			while (dirList)
+			while (dirPtr)
 			{
-				filePath = absPath(dirList->dir, cmd);
-				printf("filepath %s\n", filePath);
+				filePath = absPath(dirPtr->dir, cmd);
 				if (lstat(filePath, &st) == 0)
-				{
-
-					free_pdir(dirList);
 					return (filePath);
-				}
-				tempDir = dirList;
-				dirList = dirList->next_dir;
-				free(tempDir);
+				dirPtr = dirPtr->next_dir;
 				free(filePath);
 			}
 	}
-	free_pdir(dirList);
 	return (NULL);
 }
 
