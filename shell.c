@@ -14,6 +14,8 @@ int main(int ac, char *argv[], char *envp[])
 	char *line = NULL; /* Getline variables */
 	size_t n = 0;
 	int status;
+	char *path_val = getPATH(); 
+	pdir_t *dirList = makePathList(path_val);
 	(void)envp;
 
 	if (ac != 1)
@@ -33,7 +35,7 @@ int main(int ac, char *argv[], char *envp[])
 				printf("$ ");
 				continue;
 			}
-			exit_shell(&line); /* Check if builtin shell command */
+			exit_shell(&line, &dirList); /* Check if builtin shell command */
 
 			status = printenv(line);
 			if (status)
@@ -41,14 +43,15 @@ int main(int ac, char *argv[], char *envp[])
 				printf("$ ");
 				continue;
 			}
-			processCmds(line, argv, 1); /* Other commamds */
+			processCmds(line, argv, 1, &dirList); /* Other commamds */
 		}
 		printf("\n");
 	}
 	else /* Non-interactive mode */
 		while ((getline(&line, &n, stdin)) != -1)
-			processCmds(line, argv, 0);
+			processCmds(line, argv, 0, &dirList);
 
 	free(line); /* Free up allocated memory space */
+	free_pdir(dirList);
 	return (0);
 }
