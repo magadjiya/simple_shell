@@ -25,11 +25,11 @@ typedef struct pathdir
 
 
 /* Function Prototypes */
-int processCmds(char *cmdline, char **argv, int mode);
+int processCmds(char *cmdline, char **argv, int mode, pdir_t **dirHead);
 
 void free_arr(char **arr);
 
-char *validateCmd(char *cmd);
+char *validateCmd(char *cmd, pdir_t **dirHead);
 
 char *getPATH(void);
 
@@ -45,7 +45,7 @@ char *absPath(char *dir, char *fileName);
 
 int printenv(char *cmdline);
 
-int exit_shell(char **cmdline);
+int exit_shell(char **cmdline, pdir_t **dirHead);
 
 int printenv(char *cmdline);
 
