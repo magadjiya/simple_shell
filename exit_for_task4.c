@@ -3,11 +3,12 @@
 /**
  * exit_shell - exits the shell terminal
  * @cmdline: the command line
+ * @dirHead: pointer to linked list of PATH directories
  *
  * Return: -1 if exit is not executed, 0 or status if executed
  */
 
-int exit_shell(char **cmdline)
+int exit_shell(char **cmdline, pdir_t **dirHead)
 {
 	/* Handle the 'exit' shell builting -> Task 4 */
 	char *line, *linecp;
@@ -26,10 +27,12 @@ int exit_shell(char **cmdline)
 			status = atoi(stat);
 			free(line);
 			free(*cmdline);
+			free_pdir(*dirHead);
 			exit(status);
 		}
 		free(line);
 		free(*cmdline);
+		free_pdir(*dirHead);
 		exit(EXIT_SUCCESS);
 	}
 	free(line);
