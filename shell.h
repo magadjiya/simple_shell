@@ -48,6 +48,8 @@ int processCmds(char *cmdline, char **argv, pdir_t **dirHead);
 
 char **createArgsArr(char *cmdline);
 
+int countArgs(char **arr);
+
 char *validateCmd(char *cmd, pdir_t **dirHead);
 
 int executeCmds(char *cmdline, char *cmd, char **arr, pdir_t **dirHead);

@@ -16,6 +16,12 @@ int processCmds(char *cmdline, char **argv, pdir_t **dirHead)
 
 	/* Create array of arguments */
 	arr = createArgsArr(cmdline);
+
+	if (countArgs(arr) != 1)
+	{
+		printf("%s: No such file or directory\n", argv[0]);
+		return (0);
+	}
 	if (arr == NULL)
 		return (0);
 
