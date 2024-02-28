@@ -31,7 +31,7 @@ int processCmds(char *cmdline, char **argv, pdir_t **dirHead)
 	/* Invalid command */
 	if (fullCmd == NULL)
 	{
-		printf("%s: 1: %s: not found\n", argv[0], arr[0]);
+		print_error_message(argv, arr);
 		free(arr[0]);
 		free(arr);
 		return (127);
@@ -45,5 +45,25 @@ int processCmds(char *cmdline, char **argv, pdir_t **dirHead)
 		free(fullCmd);
 	free(arr[0]);
 	free(arr);
+	return (0);
+}
+
+/**
+ * print_error_message - creates and prints an error message if command is invalid
+ * @argv: array of arguments containing name of program
+ * @arr: array of cmdlind arguments containing name of command
+ *
+ * Return: pointer to error message
+ */
+
+int print_error_message(char **argv, char **arr)
+{
+	char errmsg[100];
+	strcpy(errmsg, argv[0]);
+	strcat(errmsg, ": 1: ");
+	strcat(errmsg, arr[0]);
+	strcat(errmsg, ": not found\n");
+
+	write(STDOUT_FILENO, errmsg, strlen(errmsg));
 	return (0);
 }

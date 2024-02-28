@@ -22,7 +22,8 @@ int is_env(char *cmdline)
 	{
 		while (*env != NULL)
 		{
-			printf("%s\n", *env);
+			write(STDOUT_FILENO, *env, strlen(*env));
+			write(STDOUT_FILENO, "\n", 1);
 			++env;
 		}
 		free(line);

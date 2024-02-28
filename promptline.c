@@ -18,7 +18,7 @@ char *promptline(char *line)
 		line = NULL;
 	}
 
-	printf("$ ");
+	write(STDOUT_FILENO, "$ ", 2);
 	if ((getline(&line, &n, stdin)) == -1)
 	{
 		free(line);
