@@ -31,7 +31,8 @@ int processCmds(char *cmdline, char **argv, pdir_t **dirHead)
 	/* Invalid command */
 	if (fullCmd == NULL)
 	{
-		print_error_message(argv, arr);
+		printf("%s: 1: %s: not found\n", argv[0], arr[0]);
+		/*print_error_message(argv, arr);*/
 		free(arr[0]);
 		free(arr);
 		return (127);
@@ -66,6 +67,6 @@ int print_error_message(char **argv, char **arr)
 	strcat(errmsg, arr[0]);
 	strcat(errmsg, ": not found\n");
 
-	write(STDOUT_FILENO, errmsg, strlen(errmsg));
+	/*write(STDOUT_FILENO, errmsg, strlen(errmsg));*/
 	return (0);
 }

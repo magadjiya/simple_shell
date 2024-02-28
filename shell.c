@@ -67,7 +67,8 @@ int _INT_MODE(char **argv, pdir_t **dirHead)
 			status = processCmds(line, argv, dirHead);
 
 	}
-	write(STDOUT_FILENO, "\n", 1);
+	printf("\n");
+	/*write(STDOUT_FILENO, "\n", 1);*/
 	/* Free up allocated memory space */
 	free(line);
 	free_pdir(*dirHead);
@@ -110,7 +111,8 @@ void ctrlC_handler(int signum)
 {
 	if (signum == SIGINT)
 	{
-		write(STDOUT_FILENO, "\n$ ", 3);
+		printf("\n$ ");
+		/*write(STDOUT_FILENO, "\n$ ", 3);*/
 		fflush(stdout);
 	}
 }
