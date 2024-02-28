@@ -66,8 +66,8 @@ int free_pdir(pdir_t *path_head);
 
 char *absPath(char *dir, char *fileName);
 
-
-
 int printenv(char *cmdline);
+
+ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
 
 #endif /* SHELL_H */
