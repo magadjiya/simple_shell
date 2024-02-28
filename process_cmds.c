@@ -17,11 +17,11 @@ int processCmds(char *cmdline, char **argv, pdir_t **dirHead)
 	/* Create array of arguments */
 	arr = createArgsArr(cmdline);
 
-	if (countArgs(arr) != 1)
-	{
-		printf("%s: No such file or directory\n", argv[0]);
-		return (0);
-	}
+	/*if (countArgs(arr) != 1)*/
+	/*{*/
+	/*	printf("%s: 1: %s: not found\n", argv[0]);*/
+	/*	return (0);*/
+	/*}*/
 	if (arr == NULL)
 		return (0);
 
@@ -30,7 +30,12 @@ int processCmds(char *cmdline, char **argv, pdir_t **dirHead)
 
 	/* Invalid command */
 	if (fullCmd == NULL)
-		printf("%s: No such file or directory\n", argv[0]);
+	{
+		printf("%s: 1: %s: not found\n", argv[0], arr[0]);
+		free(arr[0]);
+		free(arr);
+		return (127);
+	}
 	/* Valid command */
 	else
 		executeCmds(cmdline, fullCmd, arr, dirHead);

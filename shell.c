@@ -15,6 +15,7 @@ int main(int ac, char *argv[])
 	/* Make a linked list of directories in PATH */
 	pdir_t *dirList = makePathList(path_val);
 
+
 	if (ac != 1)
 	{
 		fprintf(stderr, " %s: 0: cannot open %s: No such file\n", argv[0], argv[1]);
@@ -31,7 +32,6 @@ int main(int ac, char *argv[])
 	/* Non-interactive mode */
 	else
 		_NON_INT_MODE(argv, &dirList);
-
 	return (0);
 }
 
@@ -47,6 +47,10 @@ int main(int ac, char *argv[])
 int _INT_MODE(char **argv, pdir_t **dirHead)
 {
 	char *line = NULL;
+	int status = 0;
+
+	if ((signal(SIGINT, ctrlC_handler)) == SIG_ERR)
+		perror("error");
 
 	while ((line = promptline(line)) != NULL)
 	{
@@ -55,18 +59,19 @@ int _INT_MODE(char **argv, pdir_t **dirHead)
 			continue;
 
 		/* Command is a shell builtin */
-		/*else if (isShellBuiltin(&line, dirHead))*/
-			/*continue;*/
+		else if (isShellBuiltin(&line, dirHead))
+			continue;
 
 		/* Command is a file or executable */
 		else
-			processCmds(line, argv, dirHead);
-	}
+			status = processCmds(line, argv, dirHead);
 
+	}
+	printf("\n");
 	/* Free up allocated memory space */
 	free(line);
 	free_pdir(*dirHead);
-	return (0);
+	exit(status);
 }
 
 /**
@@ -81,13 +86,32 @@ int _NON_INT_MODE(char **argv, pdir_t **dirHead)
 {
 	size_t n = 0;
 	char *line = NULL;
+	int status = 0;
 
 	while ((getline(&line, &n, stdin)) != -1)
-		processCmds(line, argv, dirHead);
+		status = processCmds(line, argv, dirHead);
 
 	/* Free up allocated memory */
 	free(line);
 	free_pdir(*dirHead);
 
-	return (0);
+	exit(status);
 }
+
+
+/**
+ * ctrlC_handler - handles the ctrl + C signal
+ * @signum: signal number
+ *
+ * Return: nothing
+ */
+
+void ctrlC_handler(int signum)
+{
+	if (signum == SIGINT)
+	{
+		printf("\n$ ");
+		fflush(stdout);
+	}
+}
+

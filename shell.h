@@ -34,6 +34,8 @@ int _INT_MODE(char **argv, pdir_t **dirHead);
 
 int _NON_INT_MODE(char **argv, pdir_t **dirHead);
 
+void ctrlC_handler(int signum);
+
 char *promptline(char *line);
 
 int isNewline(char *line);

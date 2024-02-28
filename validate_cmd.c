@@ -11,7 +11,7 @@
 char *validateCmd(char *cmd, pdir_t **dirHead)
 {
 	pdir_t *dirPtr;
-	struct stat st;
+	/*struct stat st;*/
 	char *filePath;
 
 	dirPtr = *dirHead;
@@ -23,16 +23,16 @@ char *validateCmd(char *cmd, pdir_t **dirHead)
 		case '/':
 		/* Relative Path */
 		case '.':
-			if (lstat(cmd, &st) == 0)
+			if (access(cmd, X_OK) == 0)
 				return (cmd);
 			else
 				return (NULL);
 		default:
-			return (NULL);
+			/*return (NULL);*/
 			while (dirPtr)
 			{
 				filePath = absPath(dirPtr->dir, cmd);
-				if (lstat(filePath, &st) == 0)
+				if (access(filePath, X_OK) == 0)
 					return (filePath);
 				dirPtr = dirPtr->next_dir;
 				free(filePath);
