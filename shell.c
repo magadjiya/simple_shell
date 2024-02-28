@@ -55,8 +55,8 @@ int _INT_MODE(char **argv, pdir_t **dirHead)
 			continue;
 
 		/* Command is a shell builtin */
-		else if (isShellBuiltin(&line, dirHead))
-			continue;
+		/*else if (isShellBuiltin(&line, dirHead))*/
+			/*continue;*/
 
 		/* Command is a file or executable */
 		else
