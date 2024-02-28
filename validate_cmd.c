@@ -28,6 +28,7 @@ char *validateCmd(char *cmd, pdir_t **dirHead)
 			else
 				return (NULL);
 		default:
+			return (NULL);
 			while (dirPtr)
 			{
 				filePath = absPath(dirPtr->dir, cmd);

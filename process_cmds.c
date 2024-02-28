@@ -24,7 +24,7 @@ int processCmds(char *cmdline, char **argv, pdir_t **dirHead)
 
 	/* Invalid command */
 	if (fullCmd == NULL)
-		printf("%s: 1: %s: no such file or directory\n", argv[0], arr[0]);
+		printf("%s: No such file or directory\n", argv[0]);
 	/* Valid command */
 	else
 		executeCmds(cmdline, fullCmd, arr, dirHead);
