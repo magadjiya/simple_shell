@@ -18,7 +18,10 @@ ssize_t _getline(char **lineptr, size_t *n, FILE *stream)
 		*n = 1; /* allocate for at least one byte */
 		*lineptr = malloc(*n * sizeof(char));
 		if (*lineptr == NULL)
+		{
+			free(*lineptr);
 			return (-1);
+		}
 	}
 
 	/* read from standard input */
@@ -29,11 +32,13 @@ ssize_t _getline(char **lineptr, size_t *n, FILE *stream)
 
 	/* resize as needed */
 	*n = rbytes;
-	*lineptr = realloc(*lineptr, *n);
+	*lineptr = realloc(*lineptr, *n + 1);
 	if (*lineptr == NULL)
+	{
+		free(*lineptr);
 		return (-1);
+	}
 
-	/* store values in lineptr */
 	i = 0;
 	while (buf[i] != '\n')
 	{
@@ -41,6 +46,8 @@ ssize_t _getline(char **lineptr, size_t *n, FILE *stream)
 		i++;
 	}
 	(*lineptr)[i] = '\n';
+	i++;
+	(*lineptr)[i] = '\0';
 
 	return (*n);
 }
