@@ -49,7 +49,8 @@ int processCmds(char *cmdline, char **argv, pdir_t **dirHead)
 }
 
 /**
- * print_error_message - creates and prints an error message if command is invalid
+ * print_error_message - creates and prints an error message
+ * if command is invalid
  * @argv: array of arguments containing name of program
  * @arr: array of cmdlind arguments containing name of command
  *
@@ -59,6 +60,7 @@ int processCmds(char *cmdline, char **argv, pdir_t **dirHead)
 int print_error_message(char **argv, char **arr)
 {
 	char errmsg[100];
+
 	strcpy(errmsg, argv[0]);
 	strcat(errmsg, ": 1: ");
 	strcat(errmsg, arr[0]);
