@@ -19,7 +19,7 @@ int processCmds(char *cmdline, char **argv, pdir_t **dirHead)
 
 	/*if (countArgs(arr) != 1)*/
 	/*{*/
-	/*	printf("%s: 1: %s: not found\n", argv[0]);*/
+	/*	fprintf(stderr, "%s: 1: %s: not found\n", argv[0]);*/
 	/*	return (0);*/
 	/*}*/
 	if (arr == NULL)
@@ -31,7 +31,7 @@ int processCmds(char *cmdline, char **argv, pdir_t **dirHead)
 	/* Invalid command */
 	if (fullCmd == NULL)
 	{
-		printf("%s: 1: %s: not found\n", argv[0], arr[0]);
+		fprintf(stderr, "%s: 1: %s: not found\n", argv[0], arr[0]);
 		/*print_error_message(argv, arr);*/
 		free(arr[0]);
 		free(arr);
