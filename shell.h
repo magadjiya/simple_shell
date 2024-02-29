@@ -72,4 +72,6 @@ ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
 
 int isEmpty(char *line);
 
+char *noWhiteSpaces(char *line);
+
 #endif /* SHELL_H */
