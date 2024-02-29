@@ -40,11 +40,11 @@ char *promptline(char *line);
 
 int isNewline(char *line);
 
-int isShellBuiltin(char **cmdline, pdir_t **dirHead);
+int isShellBuiltin(char **cmdline, char **argv, pdir_t **dirHead);
 
 int is_env(char *cmdline);
 
-int is_exit(char **cmdline, pdir_t **dirHead);
+int is_exit(char **cmdline, char **argv,  pdir_t **dirHead);
 
 int processCmds(char *cmdline, char **argv, pdir_t **dirHead);
 
