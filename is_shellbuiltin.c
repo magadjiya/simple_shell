@@ -20,7 +20,9 @@ int isShellBuiltin(char **cmdline, pdir_t **dirHead)
 		return (TRUE);
 	}
 	else
+	{
 		is_exit(cmdline, dirHead);
+	}
 
 	return (FALSE);
 }
