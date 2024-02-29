@@ -70,4 +70,6 @@ int printenv(char *cmdline);
 
 ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
 
+int isEmpty(char *line);
+
 #endif /* SHELL_H */

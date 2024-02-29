@@ -54,8 +54,8 @@ int _INT_MODE(char **argv, pdir_t **dirHead)
 
 	while ((line = promptline(line)) != NULL)
 	{
-		/* Command is a newline */
-		if (isNewline(line))
+		/* Command is a newline or empty string */
+		if (isNewline(line) || isEmpty(line))
 			continue;
 
 		/* Command is a shell builtin */
@@ -90,7 +90,9 @@ int _NON_INT_MODE(char **argv, pdir_t **dirHead)
 	int status = 0;
 
 	while ((getline(&line, &n, stdin)) != -1)
+	{
 		status = processCmds(line, argv, dirHead);
+	}
 
 	/* Free up allocated memory */
 	free(line);
