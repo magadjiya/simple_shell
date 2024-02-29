@@ -1,0 +1,21 @@
+#include "shell.h"
+
+/**
+ * shell_arg - runs the terminal with an argument
+ * @argv: the argument array
+ *
+ * Return: exit with 0 on success or 127 on failure
+ */
+
+int shell_arg(char **argv)
+{
+	char *line = NULL;
+	size_t n = 0;
+	FILE fd;
+
+	fd = fopen(argv[1], "r");
+
+	while (getline(&line, &n, fd) != -1)
+	{
+
+
