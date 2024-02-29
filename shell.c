@@ -90,8 +90,17 @@ int _NON_INT_MODE(char **argv, pdir_t **dirHead)
 	int status = 0;
 
 	while ((getline(&line, &n, stdin)) != -1)
-		status = processCmds(line, argv, dirHead);
+	{
+		/* Command is a newline */
+		if (isNewline(line))
+			continue;
 
+		/* Command is a shell builtin */
+		else if (isShellBuiltin(&line, dirHead))
+			continue;
+		else
+			status = processCmds(line, argv, dirHead);
+	}
 	/* Free up allocated memory */
 	free(line);
 	free_pdir(*dirHead);
