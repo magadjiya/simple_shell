@@ -10,14 +10,12 @@
 
 char **createArgsArr(char *cmdline)
 {
-	char *line, *fullCmd, *cmd;
+	char *fullCmd, *cmd;
 	char **arr = NULL;
 	int i = 0;
 
-	/* Make a copy of the command line */
-	line = strdup(cmdline);
 	/* Strip the newline character */
-	fullCmd = strtok(line, "\n");
+	fullCmd = strtok(cmdline, "\n");
 	/* Get the first argument */
 	cmd = strtok(fullCmd, " ");
 

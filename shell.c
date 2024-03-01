@@ -90,7 +90,7 @@ int _NON_INT_MODE(char **argv, pdir_t **dirHead)
 {
 	size_t n = 0;
 	char *line = NULL;
-	int status;
+	int status = 0;
 
 	while ((getline(&line, &n, stdin)) != -1)
 	{

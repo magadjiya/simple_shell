@@ -11,12 +11,15 @@
 
 int processCmds(char *cmdline, char **argv, pdir_t **dirHead)
 {
-	char *fullCmd;
+	char *line, *fullCmd;
 	char **arr = NULL;
 	int status;
+	
+	/* Make a copy of the command line */
+	line = strdup(cmdline);
 
 	/* Create array of arguments */
-	arr = createArgsArr(cmdline);
+	arr = createArgsArr(line);
 
 	/*if (countArgs(arr) != 1)*/
 	/*{*/
@@ -43,9 +46,9 @@ int processCmds(char *cmdline, char **argv, pdir_t **dirHead)
 		status = executeCmds(cmdline, fullCmd, arr, dirHead);
 
 
-	if (arr[0] != fullCmd)
-		free(fullCmd);
-	free(arr[0]);
+	/*if (line != fullCmd)
+		free(fullCmd);*/
+	free(line);
 	free(arr);
 	return (status);
 }
