@@ -11,12 +11,13 @@
 
 int processCmds(char *cmdline, char **argv, pdir_t **dirHead)
 {
-	char *line, *fullCmd;
+	char *line, *fullCmd, *new_line;
 	char **arr = NULL;
 	int status;
 
 	/* Make a copy of the command line */
 	line = strdup(cmdline);
+	new_line = noWhiteSpaces(line);
 
 	/* Create array of arguments */
 	arr = createArgsArr(line);
@@ -30,7 +31,7 @@ int processCmds(char *cmdline, char **argv, pdir_t **dirHead)
 		return (0);
 
 	/*  Validate the command @ arr[0] */
-	fullCmd = validateCmd(arr[0], dirHead);
+	fullCmd = validateCmd(&arr[0], dirHead);
 
 	/* Invalid command */
 	if (fullCmd == NULL)
@@ -43,11 +44,10 @@ int processCmds(char *cmdline, char **argv, pdir_t **dirHead)
 	}
 	/* Valid command */
 	else
-		status = executeCmds(cmdline, fullCmd, arr, dirHead);
-
-
-	/* if (line != fullCmd) */
-		/* free(fullCmd);*/
+		status = executeCmds(cmdline, fullCmd, new_line, arr, dirHead);
+	if (*new_line != '/' && *new_line != '.')
+		free(fullCmd);
+	free(new_line);
 	free(line);
 	free(arr);
 	return (status);

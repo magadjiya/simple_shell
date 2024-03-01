@@ -18,6 +18,4 @@ int isEmpty(char *line)
 	}
 	return (1);
 
-	/* "{}{}{}{}/bin/ls{}{}{}{}/bin/ls... */
-
 }

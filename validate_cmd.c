@@ -8,7 +8,7 @@
  * Return: 1 if cmd exits, 0 if it doesn't exist
  */
 
-char *validateCmd(char *cmd, pdir_t **dirHead)
+char *validateCmd(char **cmd, pdir_t **dirHead)
 {
 	pdir_t *dirPtr;
 	/*struct stat st;*/
@@ -17,21 +17,21 @@ char *validateCmd(char *cmd, pdir_t **dirHead)
 	dirPtr = *dirHead;
 
 	/* Handle different command format */
-	switch (*cmd)
+	switch (**cmd)
 	{
 		/* Absolute Path */
 		case '/':
 		/* Relative Path */
 		case '.':
-			if (access(cmd, X_OK) == 0)
-				return (cmd);
+			if (access(*cmd, X_OK) == 0)
+				return (*cmd);
 			else
 				return (NULL);
 		default:
 			/*return (NULL);*/
 			while (dirPtr)
 			{
-				filePath = absPath(dirPtr->dir, cmd);
+				filePath = absPath(dirPtr->dir, *cmd);
 				if (access(filePath, X_OK) == 0)
 					return (filePath);
 				dirPtr = dirPtr->next_dir;

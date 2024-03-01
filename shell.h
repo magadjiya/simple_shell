@@ -30,9 +30,9 @@ char *getPATH(void);
 
 pdir_t *makePathList(char *pathVal);
 
-int _INT_MODE(char **argv, pdir_t **dirHead);
+int _INT_MODE(char **argv, pdir_t **dirHead, char *pathValcpy);
 
-int _NON_INT_MODE(char **argv, pdir_t **dirHead);
+int _NON_INT_MODE(char **argv, pdir_t **dirHead, char *pathValcpy);
 
 void ctrlC_handler(int signum);
 
@@ -40,11 +40,11 @@ char *promptline(char *line);
 
 int isNewline(char *line);
 
-int isShellBuiltin(char **cmdline, int cmdstatus, char **argv, pdir_t **dirHead);
+int isShellBuiltin(char **cmdline, int cmdstatus, char **argv, pdir_t **dirHead, char *pathValcpy);
 
 int is_env(char *cmdline);
 
-int is_exit(char **cmdline, int cmdstatus, char **argv,  pdir_t **dirHead);
+int is_exit(char **cmdline, int cmdstatus, char **argv,  pdir_t **dirHead, char *pathValcpy);
 
 int processCmds(char *cmdline, char **argv, pdir_t **dirHead);
 
@@ -54,9 +54,9 @@ int print_error_message(char **argv, char **arr);
 
 int countArgs(char **arr);
 
-char *validateCmd(char *cmd, pdir_t **dirHead);
+char *validateCmd(char **cmd, pdir_t **dirHead);
 
-int executeCmds(char *cmdline, char *cmd, char **arr, pdir_t **dirHead);
+int executeCmds(char *cmdline, char *cmd, char *fline, char **arr, pdir_t **dirHead);
 
 pdir_t *add_dir(pdir_t **path_head, char *dir);
 
@@ -66,7 +66,7 @@ int free_pdir(pdir_t *path_head);
 
 char *absPath(char *dir, char *fileName);
 
-int printenv(char *cmdline);
+int printenv(char **env);
 
 ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
 

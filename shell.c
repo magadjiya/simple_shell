@@ -13,11 +13,11 @@ int main(int ac, char *argv[], char *envp[])
 {
 	/* Get the value of PATH */
 	char *path_val = getPATH();
+	/* Copy the value to another pointer */
+	char *pathValcpy = strdup(path_val);
 	/* Make a linked list of directories in PATH */
-	pdir_t *dirList = makePathList(path_val);
-
+	pdir_t *dirList = makePathList(pathValcpy);
 	(void)envp;
-
 
 	if (ac != 1)
 	{
@@ -28,13 +28,14 @@ int main(int ac, char *argv[], char *envp[])
 	/* Interactive Mode */
 	if (isatty(STDIN_FILENO))
 	{
-		_INT_MODE(argv, &dirList);
+		_INT_MODE(argv, &dirList, pathValcpy);
 		printf("\n");
 	}
 
 	/* Non-interactive mode */
 	else
-		_NON_INT_MODE(argv, &dirList);
+		_NON_INT_MODE(argv, &dirList, pathValcpy);
+
 	return (0);
 }
 
@@ -43,11 +44,12 @@ int main(int ac, char *argv[], char *envp[])
  * _INT_MODE - runs commands in interactive mode
  * @argv: the array of command line arguments
  * @dirHead: pointer to a linkded list of directories in PATH
+ * @pathValcpy: copy of directory string in PATH
  *
  * Return: 0
  */
 
-int _INT_MODE(char **argv, pdir_t **dirHead)
+int _INT_MODE(char **argv, pdir_t **dirHead, char *pathValcpy)
 {
 	char *line = NULL;
 	int status = 0;
@@ -62,7 +64,7 @@ int _INT_MODE(char **argv, pdir_t **dirHead)
 			continue;
 
 		/* Command is a shell builtin */
-		else if (isShellBuiltin(&line, status, argv, dirHead))
+		else if (isShellBuiltin(&line, status, argv, dirHead, pathValcpy))
 			continue;
 
 		/* Command is a file or executable */
@@ -72,8 +74,10 @@ int _INT_MODE(char **argv, pdir_t **dirHead)
 	}
 	printf("\n");
 	/*write(STDOUT_FILENO, "\n", 1);*/
+
 	/* Free up allocated memory space */
 	free(line);
+	free(pathValcpy);
 	free_pdir(*dirHead);
 	exit(status);
 }
@@ -82,11 +86,12 @@ int _INT_MODE(char **argv, pdir_t **dirHead)
  * _NON_INT_MODE - runs commands in non-interactive mode
  * @argv: the array of command line arguments
  * @dirHead: pointer to a linkded list of directories in PATH
+ * @pathValcpy: copy of directory string in PATH
  *
  * Return: 0
  */
 
-int _NON_INT_MODE(char **argv, pdir_t **dirHead)
+int _NON_INT_MODE(char **argv, pdir_t **dirHead, char *pathValcpy)
 {
 	size_t n = 0;
 	char *line = NULL;
@@ -98,7 +103,7 @@ int _NON_INT_MODE(char **argv, pdir_t **dirHead)
 		if (isNewline(line) || isEmpty(line))
 			continue;
 		/* Command is a shell builtin */
-		else if (isShellBuiltin(&line, status, argv, dirHead))
+		else if (isShellBuiltin(&line, status, argv, dirHead, pathValcpy))
 			continue;
 		else
 			status = processCmds(line, argv, dirHead);
@@ -106,8 +111,8 @@ int _NON_INT_MODE(char **argv, pdir_t **dirHead)
 
 	/* Free up allocated memory */
 	free(line);
+	free(pathValcpy);
 	free_pdir(*dirHead);
-
 	exit(status);
 }
 
