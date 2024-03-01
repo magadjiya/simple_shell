@@ -62,7 +62,7 @@ int _INT_MODE(char **argv, pdir_t **dirHead)
 			continue;
 
 		/* Command is a shell builtin */
-		else if (isShellBuiltin(&line, argv, dirHead))
+		else if (isShellBuiltin(&line, status, argv, dirHead))
 			continue;
 
 		/* Command is a file or executable */
@@ -98,7 +98,7 @@ int _NON_INT_MODE(char **argv, pdir_t **dirHead)
 		if (isNewline(line) || isEmpty(line))
 			continue;
 		/* Command is a shell builtin */
-		else if (isShellBuiltin(&line, argv, dirHead))
+		else if (isShellBuiltin(&line, status, argv, dirHead))
 			continue;
 		else
 			status = processCmds(line, argv, dirHead);

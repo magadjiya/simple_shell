@@ -28,7 +28,7 @@ char *promptline(char *line)
 	}
 
 	new_line = noWhiteSpaces(line);
-	if(new_line != line)
+	if (new_line != line)
 		free(line);
 	return (new_line);
 }

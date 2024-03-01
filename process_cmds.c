@@ -14,7 +14,7 @@ int processCmds(char *cmdline, char **argv, pdir_t **dirHead)
 	char *line, *fullCmd;
 	char **arr = NULL;
 	int status;
-	
+
 	/* Make a copy of the command line */
 	line = strdup(cmdline);
 
@@ -46,8 +46,8 @@ int processCmds(char *cmdline, char **argv, pdir_t **dirHead)
 		status = executeCmds(cmdline, fullCmd, arr, dirHead);
 
 
-	/*if (line != fullCmd)
-		free(fullCmd);*/
+	/* if (line != fullCmd) */
+		/* free(fullCmd);*/
 	free(line);
 	free(arr);
 	return (status);

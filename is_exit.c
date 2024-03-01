@@ -3,13 +3,14 @@
 /**
  * is_exit - checks if cmdline is "exit" and exits the shell terminal
  * @cmdline: the command line
+ * @cmdstatus: the exit status of the last command run
  * @argv: array of arguments containing program name
  * @dirHead: pointer to linked list of PATH directories
  *
  * Return: -1 if exit is not executed, 0 or status if executed
  */
 
-int is_exit(char **cmdline, char **argv, pdir_t **dirHead)
+int is_exit(char **cmdline, int cmdstatus, char **argv, pdir_t **dirHead)
 {
 	/* Handle the 'exit' shell builting */
 	char *line, *linecp;
@@ -45,7 +46,7 @@ int is_exit(char **cmdline, char **argv, pdir_t **dirHead)
 		else
 		{
 			free(line);
-			exit(EXIT_SUCCESS);
+			exit(cmdstatus);
 		}
 	}
 	free(line);
