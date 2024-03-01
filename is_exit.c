@@ -3,12 +3,13 @@
 /**
  * is_exit - checks if cmdline is "exit" and exits the shell terminal
  * @cmdline: the command line
+ * @argv: array of arguments containing program name
  * @dirHead: pointer to linked list of PATH directories
  *
  * Return: -1 if exit is not executed, 0 or status if executed
  */
 
-int is_exit(char **cmdline, pdir_t **dirHead)
+int is_exit(char **cmdline, char **argv, pdir_t **dirHead)
 {
 	/* Handle the 'exit' shell builting */
 	char *line, *linecp;
@@ -26,16 +27,21 @@ int is_exit(char **cmdline, pdir_t **dirHead)
 		stat = strtok(NULL, " ");
 		if (stat)
 		{
-			status = atoi(stat);
 			free(line);
 			free(*cmdline);
 			free_pdir(*dirHead);
-			exit(status);
+
+			if ((status = atoi(stat)) <= 0)
+			{
+				fprintf(stderr, "%s: 1: exit: Illegal number: %s\n", argv[0], stat);
+				free(line);
+				return (-1);
+			}
+			else
+				exit(status);
 		}
-		free(line);
-		free(*cmdline);
-		free_pdir(*dirHead);
-		exit(EXIT_SUCCESS);
+		else
+			exit(EXIT_SUCCESS);
 	}
 	free(line);
 	return (-1);

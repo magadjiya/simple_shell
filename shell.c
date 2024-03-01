@@ -54,12 +54,12 @@ int _INT_MODE(char **argv, pdir_t **dirHead)
 
 	while ((line = promptline(line)) != NULL)
 	{
-		/* Command is a newline */
-		if (isNewline(line))
+		/* Command is a newline or empty string */
+		if (isNewline(line) || isEmpty(line))
 			continue;
 
 		/* Command is a shell builtin */
-		else if (isShellBuiltin(&line, dirHead))
+		else if (isShellBuiltin(&line, argv, dirHead))
 			continue;
 
 		/* Command is a file or executable */
@@ -91,16 +91,16 @@ int _NON_INT_MODE(char **argv, pdir_t **dirHead)
 
 	while ((getline(&line, &n, stdin)) != -1)
 	{
-		/* Command is a newline */
-		if (isNewline(line))
+		/* Command is a newline or empty string */
+		if (isNewline(line) || isEmpty(line))
 			continue;
-
 		/* Command is a shell builtin */
-		else if (isShellBuiltin(&line, dirHead))
+		else if (isShellBuiltin(&line, argv, dirHead))
 			continue;
 		else
 			status = processCmds(line, argv, dirHead);
 	}
+
 	/* Free up allocated memory */
 	free(line);
 	free_pdir(*dirHead);

@@ -40,11 +40,11 @@ char *promptline(char *line);
 
 int isNewline(char *line);
 
-int isShellBuiltin(char **cmdline, pdir_t **dirHead);
+int isShellBuiltin(char **cmdline, char **argv, pdir_t **dirHead);
 
 int is_env(char *cmdline);
 
-int is_exit(char **cmdline, pdir_t **dirHead);
+int is_exit(char **cmdline, char **argv,  pdir_t **dirHead);
 
 int processCmds(char *cmdline, char **argv, pdir_t **dirHead);
 
@@ -69,5 +69,9 @@ char *absPath(char *dir, char *fileName);
 int printenv(char *cmdline);
 
 ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
+
+int isEmpty(char *line);
+
+char *noWhiteSpaces(char *line);
 
 #endif /* SHELL_H */
