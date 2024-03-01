@@ -22,26 +22,31 @@ int is_exit(char **cmdline, char **argv, pdir_t **dirHead)
 
 	if ((strncmp(linecp, "exit", 4) == 0))
 	{
+		free(*cmdline);
+		free_pdir(*dirHead);
 		/* Check for exit status */
 		stat = strtok(line, " ");
 		stat = strtok(NULL, " ");
 		if (stat)
 		{
-			free(line);
-			free(*cmdline);
-			free_pdir(*dirHead);
-
-			if ((status = atoi(stat)) <= 0)
+			status = atoi(stat);
+			if (status <= 0)
 			{
 				fprintf(stderr, "%s: 1: exit: Illegal number: %s\n", argv[0], stat);
 				free(line);
 				return (-1);
 			}
 			else
+			{
+				free(line);
 				exit(status);
+			}
 		}
 		else
+		{
+			free(line);
 			exit(EXIT_SUCCESS);
+		}
 	}
 	free(line);
 	return (-1);

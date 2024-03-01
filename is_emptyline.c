@@ -17,4 +17,7 @@ int isEmpty(char *line)
 		i++;
 	}
 	return (1);
+
+	/* "{}{}{}{}/bin/ls{}{}{}{}/bin/ls... */
+
 }

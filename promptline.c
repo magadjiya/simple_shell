@@ -11,6 +11,7 @@
 char *promptline(char *line)
 {
 	size_t n =  0;
+	char *new_line;
 
 	if (line != NULL)
 	{
@@ -26,8 +27,10 @@ char *promptline(char *line)
 		return (NULL);
 	}
 
-	line = noWhiteSpaces(line);
-	return (line);
+	new_line = noWhiteSpaces(line);
+	if(new_line != line)
+		free(line);
+	return (new_line);
 }
 
 /**
@@ -48,13 +51,15 @@ char *noWhiteSpaces(char *line)
 		{
 			rlen = len - i;
 			rline = malloc((rlen + 1) * sizeof(char));
+			/* Handle malloc fail */
 			if (rline == NULL)
 			{
-				free(rline);
+				/*free(rline);*/
 				return (NULL);
 			}
 
 			j = 0;
+			/* Write all the characters from the next non-space character */
 			while (line[i] != '\0')
 			{
 				rline[j] = line[i];

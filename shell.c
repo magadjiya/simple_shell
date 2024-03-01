@@ -4,16 +4,19 @@
  * main - entry point of the shell terminal
  * @ac: the number of arguments passed to main
  * @argv: array of arguments passed to main
+ * @envp: the environment variables of the process
  *
  * Return: 0 on success, -1 on failure
  */
 
-int main(int ac, char *argv[])
+int main(int ac, char *argv[], char *envp[])
 {
 	/* Get the value of PATH */
 	char *path_val = getPATH();
 	/* Make a linked list of directories in PATH */
 	pdir_t *dirList = makePathList(path_val);
+
+	(void)envp;
 
 
 	if (ac != 1)
@@ -87,7 +90,7 @@ int _NON_INT_MODE(char **argv, pdir_t **dirHead)
 {
 	size_t n = 0;
 	char *line = NULL;
-	int status = 0;
+	int status;
 
 	while ((getline(&line, &n, stdin)) != -1)
 	{

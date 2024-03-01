@@ -13,6 +13,7 @@ int processCmds(char *cmdline, char **argv, pdir_t **dirHead)
 {
 	char *fullCmd;
 	char **arr = NULL;
+	int status;
 
 	/* Create array of arguments */
 	arr = createArgsArr(cmdline);
@@ -39,14 +40,14 @@ int processCmds(char *cmdline, char **argv, pdir_t **dirHead)
 	}
 	/* Valid command */
 	else
-		executeCmds(cmdline, fullCmd, arr, dirHead);
+		status = executeCmds(cmdline, fullCmd, arr, dirHead);
 
 
 	if (arr[0] != fullCmd)
 		free(fullCmd);
 	free(arr[0]);
 	free(arr);
-	return (0);
+	return (status);
 }
 
 /**

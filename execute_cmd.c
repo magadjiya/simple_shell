@@ -34,13 +34,18 @@ int executeCmds(char *cmdline, char *cmd, char **arr, pdir_t **dirHead)
 			free(arr);
 			free(cmdline);
 			free_pdir(*dirHead);
-			exit(0);
+			exit(2);
+			
 		}
 	}
 	else /* Handle the program in the parent process */
+	{
 		wait(&wstatus);
+		if (wstatus != 0)
+			wstatus /= 256;
+	}	
 
-	return (0);
+	return (wstatus);
 }
 
 
