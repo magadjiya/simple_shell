@@ -7,16 +7,16 @@
  * @fline: a commmand line to free
  * @arr: array of arguments to execute
  * @dirHead: pointer to linked list of directories in PATH
+ * @envp: the array of environment variables
  *
  * Return: 0 on success, -1 on failure
  */
 
 int executeCmds(char *cmdline, char *cmd, char *fline,
-		char **arr, pdir_t **dirHead)
+		char **arr, pdir_t **dirHead, char *envp[])
 {
 	int wstatus;
 	pid_t p;
-	char **env = environ;
 
 	/* Create child process to execute command */
 	p = fork();
@@ -26,7 +26,7 @@ int executeCmds(char *cmdline, char *cmd, char *fline,
 	else if (p == 0)
 	{
 		/* Execute command and handle failed execution */
-		if ((execve(cmd, arr, env)) == -1)
+		if ((execve(cmd, arr, envp)) == -1)
 		{
 			perror(arr[0]);
 			/* free up allocated memory spaces in child process */

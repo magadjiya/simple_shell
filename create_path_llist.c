@@ -12,6 +12,9 @@ pdir_t *makePathList(char *pathVal)
 	char *dir;
 	pdir_t *dirHead = NULL;
 
+	if (pathVal == NULL)
+		return (NULL);
+
 	dir = strtok(pathVal, ":");
 	while (dir)
 	{

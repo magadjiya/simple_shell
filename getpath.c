@@ -10,12 +10,13 @@
 char *getPATH(void)
 {
 	char *varVal;
-	char *val;
+	char *val = NULL;
 
 	/* Searches the environment variable for PATH */
 	varVal = getenv("PATH");
 	/* Seperate the variable from the value */
-	val = strtok(varVal, "=");
+	if (varVal != NULL)
+		val = strtok(varVal, "=");
 	return (val);
 }
 

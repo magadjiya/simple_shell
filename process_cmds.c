@@ -5,11 +5,12 @@
  * @cmdline: the line of command to process
  * @argv: array of arguments to shell program
  * @dirHead: the head of the path directory linked list
+ * @envp: the array of environment variables
  *
  * Return: 0 on success, -1 on failure
  */
 
-int processCmds(char *cmdline, char **argv, pdir_t **dirHead)
+int processCmds(char *cmdline, char **argv, pdir_t **dirHead, char *envp[])
 {
 	char *line, *fullCmd, *new_line;
 	char **arr = NULL;
@@ -44,7 +45,7 @@ int processCmds(char *cmdline, char **argv, pdir_t **dirHead)
 	}
 	/* Valid command */
 	else
-		status = executeCmds(cmdline, fullCmd, new_line, arr, dirHead);
+		status = executeCmds(cmdline, fullCmd, new_line, arr, dirHead, envp);
 	if (*new_line != '/' && *new_line != '.')
 		free(fullCmd);
 	free(new_line);

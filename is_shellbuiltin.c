@@ -7,22 +7,23 @@
  * @argv: array of arguments with name of program
  * @dirHead: pointer to linked list of directories in PATH
  * @pathValcpy: copy of directory string in PATH
+ * @envp: the array of environment variables
  *
  * Return: 0 if line doesn't match any shell builtin, 1 if valid shellbuiltin.
  * It however doesn't return for the "exit" command
  */
 
 int isShellBuiltin(char **cmdline, int cmdstatus,
-		char **argv, pdir_t **dirHead, char *pathValcpy)
+		char **argv, pdir_t **dirHead, char *pathValcpy, char *envp[])
 {
 	int status;
 
-	if (is_env(*cmdline) == 1)
-		return (1);
+	if (is_env(*cmdline, envp) == 1)
+		return (0);
 
 	status = is_exit(cmdline, cmdstatus, argv, dirHead, pathValcpy);
 	if (status == 2)
 		return (status);
 
-	return (0);
+	return (1);
 }

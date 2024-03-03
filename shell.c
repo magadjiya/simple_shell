@@ -14,11 +14,17 @@ int main(int ac, char *argv[], char *envp[])
 	/* Get the value of PATH */
 	char *path_val = getPATH();
 	/* Copy the value to another pointer */
-	char *pathValcpy = strdup(path_val);
+	char *pathValcpy = NULL;
 	/* Make a linked list of directories in PATH */
-	pdir_t *dirList = makePathList(pathValcpy);
+	pdir_t *dirList = NULL;
 	(void)envp;
 
+	if  (path_val != NULL)
+		pathValcpy = strdup(path_val);
+	if (pathValcpy != NULL)
+		dirList = makePathList(pathValcpy);
+
+	/*unsetenv("PATH");*/
 	if (ac != 1)
 	{
 		fprintf(stderr, " %s: 0: cannot open %s: No such file\n", argv[0], argv[1]);
@@ -28,13 +34,13 @@ int main(int ac, char *argv[], char *envp[])
 	/* Interactive Mode */
 	if (isatty(STDIN_FILENO))
 	{
-		_INT_MODE(argv, &dirList, pathValcpy);
+		_INT_MODE(argv, envp, &dirList, pathValcpy);
 		printf("\n");
 	}
 
 	/* Non-interactive mode */
 	else
-		_NON_INT_MODE(argv, &dirList, pathValcpy);
+		_NON_INT_MODE(argv, envp, &dirList, pathValcpy);
 
 	return (0);
 }
@@ -45,11 +51,12 @@ int main(int ac, char *argv[], char *envp[])
  * @argv: the array of command line arguments
  * @dirHead: pointer to a linkded list of directories in PATH
  * @pathValcpy: copy of directory string in PATH
+ * @envp: the array of environment variables
  *
  * Return: 0
  */
 
-int _INT_MODE(char **argv, pdir_t **dirHead, char *pathValcpy)
+int _INT_MODE(char **argv, char *envp[], pdir_t **dirHead, char *pathValcpy)
 {
 	char *line = NULL;
 	int status = 0;
@@ -64,13 +71,13 @@ int _INT_MODE(char **argv, pdir_t **dirHead, char *pathValcpy)
 			continue;
 
 		/* Command is a shell builtin */
-		status = isShellBuiltin(&line, status, argv, dirHead, pathValcpy);
-		if (status == 1 || status == 2)
+		status = isShellBuiltin(&line, status, argv, dirHead, pathValcpy, envp);
+		if (status == 0 || status == 2)
 			continue;
 
 		/* Command is a file or executable */
 		else
-			status = processCmds(line, argv, dirHead);
+			status = processCmds(line, argv, dirHead, envp);
 
 	}
 	printf("\n");
@@ -88,11 +95,13 @@ int _INT_MODE(char **argv, pdir_t **dirHead, char *pathValcpy)
  * @argv: the array of command line arguments
  * @dirHead: pointer to a linkded list of directories in PATH
  * @pathValcpy: copy of directory string in PATH
+ * @envp: the array of environment variables
  *
  * Return: 0
  */
 
-int _NON_INT_MODE(char **argv, pdir_t **dirHead, char *pathValcpy)
+int _NON_INT_MODE(char **argv, char *envp[],
+		pdir_t **dirHead, char *pathValcpy)
 {
 	size_t n = 0;
 	char *line = NULL;
@@ -104,11 +113,11 @@ int _NON_INT_MODE(char **argv, pdir_t **dirHead, char *pathValcpy)
 		if (isNewline(line) || isEmpty(line))
 			continue;
 		/* Command is a shell builtin */
-		status = isShellBuiltin(&line, status, argv, dirHead, pathValcpy);
-		if (status == 1 || status == 2)
+		status = isShellBuiltin(&line, status, argv, dirHead, pathValcpy, envp);
+		if (status == 0 || status == 2)
 			continue;
 		else
-			status = processCmds(line, argv, dirHead);
+			status = processCmds(line, argv, dirHead, envp);
 	}
 
 	/* Free up allocated memory */
