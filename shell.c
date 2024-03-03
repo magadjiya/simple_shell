@@ -60,11 +60,13 @@ int _INT_MODE(char **argv, pdir_t **dirHead, char *pathValcpy)
 	while ((line = promptline(line)) != NULL)
 	{
 		/* Command is a newline or empty string */
-		if (isNewline(line) || isEmpty(line))
+		status = isNewline(line) || isEmpty(line);
+		if (status == 1)
 			continue;
 
 		/* Command is a shell builtin */
-		else if (isShellBuiltin(&line, status, argv, dirHead, pathValcpy))
+		status = isShellBuiltin(&line, status, argv, dirHead, pathValcpy);
+		if (status == 1 || status == 2)
 			continue;
 
 		/* Command is a file or executable */
@@ -100,10 +102,12 @@ int _NON_INT_MODE(char **argv, pdir_t **dirHead, char *pathValcpy)
 	while ((getline(&line, &n, stdin)) != -1)
 	{
 		/* Command is a newline or empty string */
-		if (isNewline(line) || isEmpty(line))
+		status = isNewline(line) || isEmpty(line);
+		if (status == 1)
 			continue;
 		/* Command is a shell builtin */
-		else if (isShellBuiltin(&line, status, argv, dirHead, pathValcpy))
+		status = isShellBuiltin(&line, status, argv, dirHead, pathValcpy);
+		if (status == 1 || status == 2)
 			continue;
 		else
 			status = processCmds(line, argv, dirHead);

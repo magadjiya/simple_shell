@@ -15,16 +15,14 @@
 int isShellBuiltin(char **cmdline, int cmdstatus,
 		char **argv, pdir_t **dirHead, char *pathValcpy)
 {
-	int TRUE = 1;
-	int FALSE = 0;
+	int status;
 
 	if (is_env(*cmdline) == 1)
-	{
-		/*free(*cmdline);*/
-		return (TRUE);
-	}
-	else
-		is_exit(cmdline, cmdstatus, argv, dirHead, pathValcpy);
+		return (1);
 
-	return (FALSE);
+	status = is_exit(cmdline, cmdstatus, argv, dirHead, pathValcpy);
+	if (status == 2)
+		return (status);
+
+	return (0);
 }

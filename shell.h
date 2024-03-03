@@ -46,6 +46,10 @@ int is_env(char *cmdline);
 
 int is_exit(char **cmdline, int cmdstatus, char **argv,  pdir_t **dirHead, char *pathValcpy);
 
+void _exit_shell_wstatus(char **cmdline, int status, pdir_t **dirHead, char *pathValcpy);
+
+void _exit_shell(char **cmdline, int cmdstatus, pdir_t **dirHead, char *pathValcpy);
+
 int processCmds(char *cmdline, char **argv, pdir_t **dirHead);
 
 char **createArgsArr(char *cmdline);
