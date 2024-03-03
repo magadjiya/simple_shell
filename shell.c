@@ -60,8 +60,7 @@ int _INT_MODE(char **argv, pdir_t **dirHead, char *pathValcpy)
 	while ((line = promptline(line)) != NULL)
 	{
 		/* Command is a newline or empty string */
-		status = isNewline(line) || isEmpty(line);
-		if (status == 1)
+		if (isNewline(line) || isEmpty(line))
 			continue;
 
 		/* Command is a shell builtin */
@@ -102,8 +101,7 @@ int _NON_INT_MODE(char **argv, pdir_t **dirHead, char *pathValcpy)
 	while ((getline(&line, &n, stdin)) != -1)
 	{
 		/* Command is a newline or empty string */
-		status = isNewline(line) || isEmpty(line);
-		if (status == 1)
+		if (isNewline(line) || isEmpty(line))
 			continue;
 		/* Command is a shell builtin */
 		status = isShellBuiltin(&line, status, argv, dirHead, pathValcpy);
