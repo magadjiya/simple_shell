@@ -10,6 +10,7 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 #include <signal.h>
+#include <errno.h>
 
 /**
  * struct pathdir - a data type for storing directories in the PATH variable
@@ -47,6 +48,10 @@ int is_env(char *cmdline, char *envp[]);
 void printenv(char **env);
 
 void unsetallenv(char **env);
+
+int is_setenv(char *cmdline);
+
+int _setenv(char *varName, char *val);
 
 int is_exit(char **cmdline, int cmdstatus, char **argv,  pdir_t **dirHead, char *pathValcpy);
 

@@ -13,6 +13,7 @@ int is_env(char *cmdline, char *envp[])
 	char *line;
 	/*char **env = environ;*/
 	char *linecp;
+	(void)envp;
 
 	/* Strip the newline character */
 	line = strdup(cmdline);
@@ -21,7 +22,7 @@ int is_env(char *cmdline, char *envp[])
 	/* Handle the "env" shell builtin */
 	if ((strcmp(linecp, "env") == 0))
 	{
-		printenv(envp);
+		printenv(environ);
 		free(line);
 		return (1);
 	}
@@ -43,8 +44,6 @@ void printenv(char **env)
 
 	while (env[i] != NULL)
 	{
-		/*write(STDOUT_FILENO, *env, strlen(*env));*/
-		/*write(STDOUT_FILENO, "\n", 1);*/
 		printf("%s\n", env[i]);
 		++i;
 	}

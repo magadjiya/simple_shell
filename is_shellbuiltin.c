@@ -21,6 +21,10 @@ int isShellBuiltin(char **cmdline, int cmdstatus,
 	if (is_env(*cmdline, envp) == 1)
 		return (0);
 
+	status = is_setenv(*cmdline);
+	if (status != 1)
+		return (status);
+
 	status = is_exit(cmdline, cmdstatus, argv, dirHead, pathValcpy);
 	if (status == 2)
 		return (status);
