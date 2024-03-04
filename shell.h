@@ -53,6 +53,10 @@ int is_setenv(char *cmdline);
 
 int _setenv(char *varName, char *val);
 
+int is_unsetenv(char *cmdline);
+
+int _unsetenv(char *varName);
+
 int is_exit(char **cmdline, int cmdstatus, char **argv,  pdir_t **dirHead, char *pathValcpy);
 
 void _exit_shell_wstatus(char **cmdline, int status, pdir_t **dirHead, char *pathValcpy);

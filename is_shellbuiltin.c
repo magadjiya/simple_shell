@@ -25,6 +25,10 @@ int isShellBuiltin(char **cmdline, int cmdstatus,
 	if (status != 1)
 		return (status);
 
+	status = is_unsetenv(*cmdline);
+	if (status != 1)
+		return (status);
+
 	status = is_exit(cmdline, cmdstatus, argv, dirHead, pathValcpy);
 	if (status == 2)
 		return (status);
