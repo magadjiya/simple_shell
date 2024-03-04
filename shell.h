@@ -46,6 +46,8 @@ int is_env(char *cmdline, char *envp[]);
 
 void printenv(char **env);
 
+void unsetallenv(char **env);
+
 int is_exit(char **cmdline, int cmdstatus, char **argv,  pdir_t **dirHead, char *pathValcpy);
 
 void _exit_shell_wstatus(char **cmdline, int status, pdir_t **dirHead, char *pathValcpy);

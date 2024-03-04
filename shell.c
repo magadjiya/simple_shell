@@ -12,7 +12,7 @@
 int main(int ac, char *argv[], char *envp[])
 {
 	/* Get the value of PATH */
-	char *path_val = getPATH();
+	char *path_val  = getPATH();
 	/* Copy the value to another pointer */
 	char *pathValcpy = NULL;
 	/* Make a linked list of directories in PATH */

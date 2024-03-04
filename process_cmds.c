@@ -23,11 +23,6 @@ int processCmds(char *cmdline, char **argv, pdir_t **dirHead, char *envp[])
 	/* Create array of arguments */
 	arr = createArgsArr(line);
 
-	/*if (countArgs(arr) != 1)*/
-	/*{*/
-	/*	fprintf(stderr, "%s: 1: %s: not found\n", argv[0]);*/
-	/*	return (0);*/
-	/*}*/
 	if (arr == NULL)
 		return (0);
 
@@ -39,6 +34,7 @@ int processCmds(char *cmdline, char **argv, pdir_t **dirHead, char *envp[])
 	{
 		fprintf(stderr, "%s: 1: %s: not found\n", argv[0], arr[0]);
 		/*print_error_message(argv, arr);*/
+		free(new_line);
 		free(arr[0]);
 		free(arr);
 		return (127);

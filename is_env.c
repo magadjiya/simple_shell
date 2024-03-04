@@ -49,3 +49,24 @@ void printenv(char **env)
 		++i;
 	}
 }
+
+
+/**
+ * unsetallenv - removes all environment variable
+ * @env: the array of environment variables
+ *
+ * Return: nothing
+ */
+
+void unsetallenv(char **env)
+{
+	int i = 0;
+	char *var = NULL;
+
+	while (env[i] != NULL)
+	{
+		var = strtok(env[i], "=");
+		unsetenv(var);
+		++i;
+	}
+}
