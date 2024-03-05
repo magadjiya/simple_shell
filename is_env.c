@@ -3,17 +3,15 @@
 /**
  * is_env - checks if cmdline is "env" and prints the env variables
  * @cmdline: the command line given to the terminal
- * @envp: the array of environment variables
  *
  * Return: 1 if environment is printed, 0 if not
  */
 
-int is_env(char *cmdline, char *envp[])
+int is_env(char *cmdline)
 {
 	char *line;
 	/*char **env = environ;*/
 	char *linecp;
-	(void)envp;
 
 	/* Strip the newline character */
 	line = strdup(cmdline);

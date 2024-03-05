@@ -7,13 +7,15 @@
  * @fline: a commmand line to free
  * @arr: array of arguments to execute
  * @dirHead: pointer to linked list of directories in PATH
+ * @aliasHead: pointer to the linked list of aliases
  * @envp: the array of environment variables
+ * @pathValcpy: copy of directory string in PATH
  *
  * Return: 0 on success, -1 on failure
  */
 
-int executeCmds(char *cmdline, char *cmd, char *fline,
-		char **arr, pdir_t **dirHead, char *envp[])
+int executeCmds(char *cmdline, char *cmd, char *fline, char **arr,
+		pdir_t **dirHead, alias **aliasHead, char *envp[], char *pathValcpy)
 {
 	int wstatus;
 	pid_t p;
@@ -37,6 +39,8 @@ int executeCmds(char *cmdline, char *cmd, char *fline,
 			free(cmdline);
 			free(fline);
 			free_pdir(*dirHead);
+			free_alias(*aliasHead);
+			free(pathValcpy);
 			exit(2);
 
 		}

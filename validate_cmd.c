@@ -4,17 +4,21 @@
  * validateCmd - checks if a command exists
  * @cmd: the command to validate
  * @dirHead: pointer to the the linked list of PATH directories
+ * @aliasHead: pointer to the linked list of aliases
  *
  * Return: 1 if cmd exits, 0 if it doesn't exist
  */
 
-char *validateCmd(char **cmd, pdir_t **dirHead)
+char *validateCmd(char **cmd, pdir_t **dirHead, alias **aliasHead)
 {
 	pdir_t *dirPtr;
 	/*struct stat st;*/
 	char *filePath;
+	alias *aliasPtr;
+	char *alias_val1, *alias_val2;
 
 	dirPtr = *dirHead;
+	aliasPtr = *aliasHead;
 
 	/* Handle different command format */
 	switch (**cmd)
@@ -28,7 +32,7 @@ char *validateCmd(char **cmd, pdir_t **dirHead)
 			else
 				return (NULL);
 		default:
-			/*return (NULL);*/
+			/* Check for command in PATH */
 			while (dirPtr)
 			{
 				filePath = absPath(dirPtr->dir, *cmd);
@@ -37,6 +41,14 @@ char *validateCmd(char **cmd, pdir_t **dirHead)
 				dirPtr = dirPtr->next_dir;
 				free(filePath);
 			}
+			/* Check for command in alias */
+			alias_val1 = get_alias_val(aliasPtr, *cmd);
+			if (alias_val1 != NULL)
+			{
+				alias_val2 = strdup(alias_val1);
+				return (alias_val2);
+			}
+
 	}
 	return (NULL);
 }

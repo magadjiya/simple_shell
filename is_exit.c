@@ -7,12 +7,13 @@
  * @argv: array of arguments containing program name
  * @dirHead: pointer to linked list of PATH directories
  * @pathValcpy: copy of directory string in PATH
+ * @aliasHead: pointer to list of all aliases in the process
  *
  * Return: -1 if exit is not executed, 0 or status if executed
  */
 
-int is_exit(char **cmdline, int cmdstatus, char **argv,
-		pdir_t **dirHead, char *pathValcpy)
+int is_exit(char **cmdline, int cmdstatus, char **argv, pdir_t **dirHead,
+		char *pathValcpy, alias **aliasHead)
 {
 	/* Handle the 'exit' shell builting */
 	char *line, *linecp, *stat;
@@ -39,13 +40,13 @@ int is_exit(char **cmdline, int cmdstatus, char **argv,
 			else
 			{
 				free(line);
-				_exit_shell_wstatus(cmdline, status, dirHead, pathValcpy);
+				_exit_shell_wstatus(cmdline, status, dirHead, pathValcpy, aliasHead);
 			}
 		}
 		else
 		{
 			free(line);
-			_exit_shell(cmdline, cmdstatus, dirHead, pathValcpy);
+			_exit_shell(cmdline, cmdstatus, dirHead, pathValcpy, aliasHead);
 		}
 	}
 
@@ -59,16 +60,18 @@ int is_exit(char **cmdline, int cmdstatus, char **argv,
  * @cmdstatus: the exit status of the last command run
  * @dirHead: pointer to linked list of PATH directories
  * @pathValcpy: copy of directory string in PATH
+ * @aliasHead: pointer to list of all aliases in the process
  *
  * Return: -1 if exit is not executed, 0 or status if executed
  */
 
-void _exit_shell(char **cmdline, int cmdstatus,
-		pdir_t **dirHead, char *pathValcpy)
+void _exit_shell(char **cmdline, int cmdstatus, pdir_t **dirHead,
+		char *pathValcpy, alias **aliasHead)
 {
 	free(pathValcpy);
 	free(*cmdline);
 	free_pdir(*dirHead);
+	free_alias(*aliasHead);
 	exit(cmdstatus);
 }
 
@@ -80,15 +83,17 @@ void _exit_shell(char **cmdline, int cmdstatus,
  * @status: the status to exit the shell with
  * @dirHead: pointer to linked list of PATH directories
  * @pathValcpy: copy of directory string in PATH
+ * @aliasHead: pointer to list of all aliases in the process
  *
  * Return: nothing
  */
 
-void _exit_shell_wstatus(char **cmdline, int status,
-		pdir_t **dirHead, char *pathValcpy)
+void _exit_shell_wstatus(char **cmdline, int status, pdir_t **dirHead,
+		char *pathValcpy, alias **aliasHead)
 {
 	free(pathValcpy);
 	free(*cmdline);
 	free_pdir(*dirHead);
+	free_alias(*aliasHead);
 	exit(status);
 }

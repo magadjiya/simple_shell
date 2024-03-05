@@ -6,11 +6,14 @@
  * @argv: array of arguments to shell program
  * @dirHead: the head of the path directory linked list
  * @envp: the array of environment variables
+ * @aliasHead: pointer to the linked list of aliases
+ * @pathValcpy: copy of directory string in PATH
  *
  * Return: 0 on success, -1 on failure
  */
 
-int processCmds(char *cmdline, char **argv, pdir_t **dirHead, char *envp[])
+int processCmds(char *cmdline, char **argv, pdir_t **dirHead,
+		char *envp[], alias **aliasHead, char *pathValcpy)
 {
 	char *line, *fullCmd, *new_line;
 	char **arr = NULL;
@@ -27,7 +30,7 @@ int processCmds(char *cmdline, char **argv, pdir_t **dirHead, char *envp[])
 		return (0);
 
 	/*  Validate the command @ arr[0] */
-	fullCmd = validateCmd(&arr[0], dirHead);
+	fullCmd = validateCmd(&arr[0], dirHead, aliasHead);
 
 	/* Invalid command */
 	if (fullCmd == NULL)
@@ -41,7 +44,9 @@ int processCmds(char *cmdline, char **argv, pdir_t **dirHead, char *envp[])
 	}
 	/* Valid command */
 	else
-		status = executeCmds(cmdline, fullCmd, new_line, arr, dirHead, envp);
+		status = executeCmds(cmdline, fullCmd, new_line,
+		arr, dirHead, aliasHead, envp, pathValcpy);
+
 	if (*new_line != '/' && *new_line != '.')
 		free(fullCmd);
 	free(new_line);
