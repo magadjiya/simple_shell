@@ -25,6 +25,13 @@ typedef struct pathdir
 } pdir_t;
 
 
+typedef struct alias
+{
+	char *name;
+	char *value;
+	struct alias *next;
+} alias;
+
 /* Function Prototypes */
 
 char *getPATH(void);
@@ -41,9 +48,13 @@ char *promptline(char *line);
 
 int isNewline(char *line);
 
-int isShellBuiltin(char **cmdline, int cmdstatus, char **argv, pdir_t **dirHead, char *pathValcpy, char *envp[]);
+int isEmpty(char *line);
 
-int is_env(char *cmdline, char *envp[]);
+char *noWhiteSpaces(char *line);
+
+int isShellBuiltin(char **cmdline, int cmdstatus, char **argv, pdir_t **dirHead, char *pathValcpy, alias **aliasHead);
+
+int is_env(char *cmdline);
 
 void printenv(char **env);
 
@@ -57,13 +68,15 @@ int is_unsetenv(char *cmdline);
 
 int _unsetenv(char *varName);
 
-int is_exit(char **cmdline, int cmdstatus, char **argv,  pdir_t **dirHead, char *pathValcpy);
+int is_alias(char *cmdline, alias **aliasHead);
 
-void _exit_shell_wstatus(char **cmdline, int status, pdir_t **dirHead, char *pathValcpy);
+int is_exit(char **cmdline, int cmdstatus, char **argv,  pdir_t **dirHead, char *pathValcpy, alias **aliasHead);
 
-void _exit_shell(char **cmdline, int cmdstatus, pdir_t **dirHead, char *pathValcpy);
+void _exit_shell_wstatus(char **cmdline, int status, pdir_t **dirHead, char *pathValcpy, alias **aliasHead);
 
-int processCmds(char *cmdline, char **argv, pdir_t **dirHead, char *envp[]);
+void _exit_shell(char **cmdline, int cmdstatus, pdir_t **dirHead, char *pathValcpy, alias **aliasHead);
+
+int processCmds(char *cmdline, char **argv, pdir_t **dirHead, char *envp[], alias **aliasHead, char *pathValcpy);
 
 char **createArgsArr(char *cmdline);
 
@@ -71,9 +84,9 @@ int print_error_message(char **argv, char **arr);
 
 int countArgs(char **arr);
 
-char *validateCmd(char **cmd, pdir_t **dirHead);
+char *validateCmd(char **cmd, pdir_t **dirHead, alias **aliasHead);
 
-int executeCmds(char *cmdline, char *cmd, char *fline, char **arr, pdir_t **dirHead, char *envp[]);
+int executeCmds(char *cmdline, char *cmd, char *fline, char **arr, pdir_t **dirHead, alias **aliasHead, char *envp[], char *pathValcpy);
 
 pdir_t *add_dir(pdir_t **path_head, char *dir);
 
@@ -85,8 +98,24 @@ char *absPath(char *dir, char *fileName);
 
 ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
 
-int isEmpty(char *line);
+alias *add_alias(alias **aliasHead, char *name, char *val);
 
-char *noWhiteSpaces(char *line);
+alias *add_alias_end(alias **aliasHead, char *name, char *val);
+
+alias *update_alias(alias **aliasHead, char *name, char *val);
+
+int check_alias(alias *aliasHead, char *name);
+
+char *get_alias_name(alias *aliasHead, char *alias);
+
+char *get_alias_val(alias *aliasHead, char *name);
+
+int print_alias(alias *aliasHead, char *name);
+
+int print_alias_all(alias **aliasHead);
+
+int free_alias(alias *aliasHead);
+
+
 
 #endif /* SHELL_H */
