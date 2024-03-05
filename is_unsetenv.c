@@ -33,12 +33,6 @@ int is_unsetenv(char *cmdline)
 			return (2);
 		}
 	}
-	else
-	{
-		fprintf(stderr, "./hsh: Usage: unsetenv VARIABLE\n");
-		free(line);
-		return (2);
-	}
 	free(line);
 	return (1);
 }
