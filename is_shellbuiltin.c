@@ -33,6 +33,10 @@ int isShellBuiltin(char **cmdline, int cmdstatus, char **argv,
 	if (status != 1)
 		return (status);
 
+	status = is_cd(*cmdline);
+	if (status != 1)
+		return (status);
+
 	status = is_exit(cmdline, cmdstatus, argv, dirHead, pathValcpy, aliasHead);
 	if (status == 2)
 		return (status);
