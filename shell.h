@@ -32,9 +32,16 @@ typedef struct alias
 	struct alias *next;
 } alias;
 
+
 /* Function Prototypes */
 
 char *getPATH(void);
+
+char *getHOME(void);
+
+char *getPWD(void);
+
+char *getOLDPWD(void);
 
 pdir_t *makePathList(char *pathVal);
 
@@ -69,6 +76,8 @@ int is_unsetenv(char *cmdline);
 int _unsetenv(char *varName);
 
 int is_alias(char *cmdline, alias **aliasHead);
+
+int is_cd(char *cmdline);
 
 int is_exit(char **cmdline, int cmdstatus, char **argv,  pdir_t **dirHead, char *pathValcpy, alias **aliasHead);
 
@@ -115,7 +124,5 @@ int print_alias(alias *aliasHead, char *name);
 int print_alias_all(alias **aliasHead);
 
 int free_alias(alias *aliasHead);
-
-
 
 #endif /* SHELL_H */
