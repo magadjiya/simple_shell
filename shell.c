@@ -60,6 +60,7 @@ int _INT_MODE(char **argv, char *envp[], pdir_t **dirHead, char *pathValcpy)
 {
 	char *line = NULL;
 	int status = 0;
+	alias *aliasHead = NULL;
 
 	if ((signal(SIGINT, ctrlC_handler)) == SIG_ERR)
 		perror("error");
@@ -71,22 +72,23 @@ int _INT_MODE(char **argv, char *envp[], pdir_t **dirHead, char *pathValcpy)
 			continue;
 
 		/* Command is a shell builtin */
-		status = isShellBuiltin(&line, status, argv, dirHead, pathValcpy, envp);
+		status = isShellBuiltin(&line, status, argv,
+				dirHead, pathValcpy, &aliasHead);
 		if (status == 0 || status == 2)
 			continue;
 
 		/* Command is a file or executable */
 		else
-			status = processCmds(line, argv, dirHead, envp);
+			status = processCmds(line, argv, dirHead, envp, &aliasHead, pathValcpy);
 
 	}
 	printf("\n");
-	/*write(STDOUT_FILENO, "\n", 1);*/
 
 	/* Free up allocated memory space */
 	free(line);
 	free(pathValcpy);
 	free_pdir(*dirHead);
+	free_alias(aliasHead);
 	exit(status);
 }
 
@@ -106,6 +108,7 @@ int _NON_INT_MODE(char **argv, char *envp[],
 	size_t n = 0;
 	char *line = NULL;
 	int status = 0;
+	alias *aliasHead = NULL;
 
 	while ((getline(&line, &n, stdin)) != -1)
 	{
@@ -113,17 +116,19 @@ int _NON_INT_MODE(char **argv, char *envp[],
 		if (isNewline(line) || isEmpty(line))
 			continue;
 		/* Command is a shell builtin */
-		status = isShellBuiltin(&line, status, argv, dirHead, pathValcpy, envp);
+		status = isShellBuiltin(&line, status, argv,
+				dirHead, pathValcpy, &aliasHead);
 		if (status == 0 || status == 2)
 			continue;
 		else
-			status = processCmds(line, argv, dirHead, envp);
+			status = processCmds(line, argv, dirHead, envp, &aliasHead, pathValcpy);
 	}
 
 	/* Free up allocated memory */
 	free(line);
 	free(pathValcpy);
 	free_pdir(*dirHead);
+	free_alias(aliasHead);
 	exit(status);
 }
 
