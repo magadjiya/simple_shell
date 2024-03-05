@@ -2,9 +2,10 @@
 
 
 /**
- * get_alias_name - checks if an alias exists
+ * get_alias_name - checks for an alias and in an alias
+ * set and return only the name
  * @aliasHead: the starting position of the linked list of aliases
- * @name: the name of the alias to check
+ * @alias_set: the name and value of the alias to check
  * Return: 0 on success, -1 on failure
  */
 
@@ -27,7 +28,7 @@ char *get_alias_name(alias *aliasHead, char *alias_set)
 		tempAlias = tempAlias->next;
 	}
 	free(alias_cp);
-        return (alias_set);
+	return (alias_set);
 }
 
 /**
