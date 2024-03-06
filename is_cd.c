@@ -36,7 +36,7 @@ int is_cd(char *cmdline)
 				new_dir = oldpwd;
 				if (new_dir == NULL)
 				{
-					fprintf(stderr, "./hsh: cd: OLDPWD not set\n");
+					/*fprintf(stderr, "./hsh: cd: OLDPWD not set\n");*/
 					free(line);
 					return (2);
 				}
@@ -57,7 +57,17 @@ int is_cd(char *cmdline)
 				}
 			}
 		}
-		chdir(new_dir);
+		if (new_dir == NULL) /* Handle empty directory */
+		{
+			free(line);
+			return (0);
+		}
+		if (chdir(new_dir) == -1) /* Handle non existing directories and directories without permission */
+		{
+			fprintf(stderr, "./hsh: 1: cd: can't cd to %s\n", new_dir);
+			free(line);
+			return (0);
+		}
 		setenv("PWD", new_dir, 1);
 		setenv("OLDPWD", oldpwd, 1);
 		free(line);
