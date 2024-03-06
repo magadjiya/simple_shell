@@ -33,15 +33,20 @@ int is_cd(char *cmdline)
 		{
 			if (*dir_arg == '-')
 			{
+
 				new_dir = oldpwd;
 				if (new_dir == NULL)
 				{
 					/*fprintf(stderr, "./hsh: cd: OLDPWD not set\n");*/
+					printf("%s\n", pwd);
 					free(line);
-					return (2);
+					return (0);
 				}
 				else
+				{
+					printf("%s\n", oldpwd);
 					oldpwd = pwd;
+				}
 			}
 			else
 			{
