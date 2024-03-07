@@ -15,34 +15,64 @@
 int processCmds(char *cmdline, char **argv, pdir_t **dirHead,
 		char *envp[], alias **aliasHead, char *pathValcpy)
 {
-	char *fullCmd;
+	char *line, *fullCmd, *new_line;
 	char **arr = NULL;
 	int status;
 
+	/* Make a copy of the command line */
+	line = strdup(cmdline);
+	new_line = noWhiteSpaces(line);
+
 	/* Create array of arguments */
-	arr = createArgsArr(cmdline);
+	arr = createArgsArr(line);
 
 	if (arr == NULL)
 		return (0);
 
-	/*  Validate the command @ arr[0] or get its fullpath */
+	/*  Validate the command @ arr[0] */
 	fullCmd = validateCmd(&arr[0], dirHead, aliasHead);
 
 	/* Invalid command */
 	if (fullCmd == NULL)
 	{
 		fprintf(stderr, "%s: 1: %s: not found\n", argv[0], arr[0]);
-		free_arr(arr);
+		/*print_error_message(argv, arr);*/
+		free(new_line);
+		free(arr[0]);
+		free(arr);
 		return (127);
 	}
-
 	/* Valid command */
 	else
-		status = executeCmds(cmdline, fullCmd, arr,
-			dirHead, aliasHead, envp, pathValcpy);
+		status = executeCmds(cmdline, fullCmd, new_line,
+		arr, dirHead, aliasHead, envp, pathValcpy);
 
-	if (arr[0] != fullCmd)
+	if (*new_line != '/' && *new_line != '.')
 		free(fullCmd);
-	free_arr(arr);
+	free(new_line);
+	free(line);
+	free(arr);
 	return (status);
+}
+
+/**
+ * print_error_message - creates and prints an error message
+ * if command is invalid
+ * @argv: array of arguments containing name of program
+ * @arr: array of cmdlind arguments containing name of command
+ *
+ * Return: pointer to error message
+ */
+
+int print_error_message(char **argv, char **arr)
+{
+	char errmsg[100];
+
+	strcpy(errmsg, argv[0]);
+	strcat(errmsg, ": 1: ");
+	strcat(errmsg, arr[0]);
+	strcat(errmsg, ": not found\n");
+
+	/*write(STDOUT_FILENO, errmsg, strlen(errmsg));*/
+	return (0);
 }

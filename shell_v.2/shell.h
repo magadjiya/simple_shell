@@ -89,13 +89,13 @@ int processCmds(char *cmdline, char **argv, pdir_t **dirHead, char *envp[], alia
 
 char **createArgsArr(char *cmdline);
 
-void free_arr(char **arr);
+int print_error_message(char **argv, char **arr);
 
 int countArgs(char **arr);
 
 char *validateCmd(char **cmd, pdir_t **dirHead, alias **aliasHead);
 
-int executeCmds(char *cmdline, char *cmd, char **arr, pdir_t **dirHead, alias **aliasHead, char *envp[], char *pathValcpy);
+int executeCmds(char *cmdline, char *cmd, char *fline, char **arr, pdir_t **dirHead, alias **aliasHead, char *envp[], char *pathValcpy);
 
 pdir_t *add_dir(pdir_t **path_head, char *dir);
 

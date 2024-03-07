@@ -4,6 +4,7 @@
  * executeCmds - executes a command given
  * @cmdline: the command line to be freed if fails
  * @cmd: the line of command to execute
+ * @fline: a commmand line to free
  * @arr: array of arguments to execute
  * @dirHead: pointer to linked list of directories in PATH
  * @aliasHead: pointer to the linked list of aliases
@@ -13,8 +14,8 @@
  * Return: 0 on success, -1 on failure
  */
 
-int executeCmds(char *cmdline, char *cmd, char **arr, pdir_t **dirHead,
-	alias **aliasHead, char *envp[], char *pathValcpy)
+int executeCmds(char *cmdline, char *cmd, char *fline, char **arr,
+		pdir_t **dirHead, alias **aliasHead, char *envp[], char *pathValcpy)
 {
 	int wstatus;
 	pid_t p;
@@ -33,8 +34,10 @@ int executeCmds(char *cmdline, char *cmd, char **arr, pdir_t **dirHead,
 			/* free up allocated memory spaces in child process */
 			if (arr[0] != cmd)
 				free(cmd);
-			free_arr(arr);
+			free(arr[0]);
+			free(arr);
 			free(cmdline);
+			free(fline);
 			free_pdir(*dirHead);
 			free_alias(*aliasHead);
 			free(pathValcpy);
