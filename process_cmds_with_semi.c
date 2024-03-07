@@ -42,7 +42,6 @@ int processCmds_withSemi(char *cmdline, char **argv, pdir_t **dirHead,
 		status = processCmds(arr, cmdline, argv, dirHead,
 				envp, aliasHead, pathValcpy);
 		free(arg_set);
-
 		if (cmdcpy[i + j] == '\0')
 			break;
 		i = i + j + 1;
