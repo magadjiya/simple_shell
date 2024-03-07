@@ -1,0 +1,48 @@
+#include "shell.h"
+
+/**
+ * processCmds - handles the processing of commands passed to the terminal
+ * @cmdline: the line of command to process
+ * @argv: array of arguments to shell program
+ * @dirHead: the head of the path directory linked list
+ * @envp: the array of environment variables
+ * @aliasHead: pointer to the linked list of aliases
+ * @pathValcpy: copy of directory string in PATH
+ *
+ * Return: 0 on success, -1 on failure
+ */
+
+int processCmds(char *cmdline, char **argv, pdir_t **dirHead,
+		char *envp[], alias **aliasHead, char *pathValcpy)
+{
+	char *fullCmd;
+	char **arr = NULL;
+	int status;
+
+	/* Create array of arguments */
+	arr = createArgsArr(cmdline);
+
+	if (arr == NULL)
+		return (0);
+
+	/*  Validate the command @ arr[0] or get its fullpath */
+	fullCmd = validateCmd(&arr[0], dirHead, aliasHead);
+
+	/* Invalid command */
+	if (fullCmd == NULL)
+	{
+		fprintf(stderr, "%s: 1: %s: not found\n", argv[0], arr[0]);
+		free_arr(arr);
+		return (127);
+	}
+
+	/* Valid command */
+	else
+		status = executeCmds(cmdline, fullCmd, arr,
+			dirHead, aliasHead, envp, pathValcpy);
+
+	if (arr[0] != fullCmd)
+		free(fullCmd);
+	free_arr(arr);
+	return (status);
+}
