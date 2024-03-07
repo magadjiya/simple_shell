@@ -36,3 +36,15 @@
 	* updating an old alias if the alias already exists using the command `alias ls_alias=/usr/bin/ls`
 	* Executing aliases as valid commands 
 	* Executing aliases whose values are aliases as valid commands
+
+## Task 10
+* Initially I wanted to make use of a linked list to store the `HOME`, `PWD` and `OLDPWD` directories. Then, I discovered that will be too much use of `malloc`. These values are stored in the `envp` array. So, for this task, only one `dynamic memory allocation` was used to duplicate the command line string.
+* It was also important to understand how the default `sh` handled the `cd -` command by first printing the `OLDPWD` before changing to it or the `PWD` in the case where the `OLDPWD` is not set
+* It was also important to handle the case where some of either of the `HOME` or `OLDPWD` were removed.
+
+## Task 11
+* To handle the semi-colon, I had to rethink a portion of my entire program creating an intermediary function to first analyze the commands to determine if they are commands with multiple commands to run independently or singular commands.
+* I had to also learn how to not use `strtok` to separate commands based on a character. It requires more lines of code, no malloc, but it works.
+
+## Task 12
+* It was quiet easier to handle 12 since it was just like 11
