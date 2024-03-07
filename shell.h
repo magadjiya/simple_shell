@@ -91,9 +91,13 @@ int is_semi(char *cmdline);
 
 int processCmds_withSemi(char *cmdline, char **argv, pdir_t **dirHead, char *envp[], alias **aliasHead, char *pathValcpy);
 
+int is_logical_op(char *cmdline);
+
 int is_logical_and(char *cmdline);
 
 int is_logical_or(char *cmdline);
+
+int processCmds_withLogOp(char *cmdline, char **argv, pdir_t **dirHead, char *envp[], alias **aliasHead, char *pathValcpy);
 
 int is_comment(char *cmdline);
 

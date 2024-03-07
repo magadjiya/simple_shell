@@ -22,6 +22,9 @@ int analyzeCmds(char *cmdline, char **argv, pdir_t **dirHead,
 	if (is_semi(cmdline) != 0)
 		status = processCmds_withSemi(cmdline, argv, dirHead,
 				envp, aliasHead, pathValcpy);
+	else if (is_logical_op(cmdline) != 0)
+		status = processCmds_withLogOp(cmdline, argv, dirHead,
+				envp, aliasHead, pathValcpy);
 	else
 	{
 		arr = createArgsArr(cmdline);
