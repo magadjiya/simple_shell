@@ -79,7 +79,7 @@ int _INT_MODE(char **argv, char *envp[], pdir_t **dirHead, char *pathValcpy)
 
 		/* Command is a file or executable */
 		else
-			status = processCmds(line, argv, dirHead, envp, &aliasHead, pathValcpy);
+			status = analyzeCmds(line, argv, dirHead, envp, &aliasHead, pathValcpy);
 
 	}
 	printf("\n");
@@ -121,7 +121,7 @@ int _NON_INT_MODE(char **argv, char *envp[],
 		if (status == 0 || status == 2)
 			continue;
 		else
-			status = processCmds(line, argv, dirHead, envp, &aliasHead, pathValcpy);
+			status = analyzeCmds(line, argv, dirHead, envp, &aliasHead, pathValcpy);
 	}
 
 	/* Free up allocated memory */

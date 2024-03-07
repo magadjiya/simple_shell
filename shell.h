@@ -85,17 +85,29 @@ void _exit_shell_wstatus(char **cmdline, int status, pdir_t **dirHead, char *pat
 
 void _exit_shell(char **cmdline, int cmdstatus, pdir_t **dirHead, char *pathValcpy, alias **aliasHead);
 
-int processCmds(char *cmdline, char **argv, pdir_t **dirHead, char *envp[], alias **aliasHead, char *pathValcpy);
+int analyzeCmds(char *cmdline, char **argv, pdir_t **dirHead, char *envp[], alias **aliasHead, char *pathValcpy);
+
+int is_semi(char *cmdline);
+
+int processCmds_withSemi(char *cmdline, char **argv, pdir_t **dirHead, char *envp[], alias **aliasHead, char *pathValcpy);
+
+int is_logical_and(char *cmdline);
+
+int is_logical_or(char *cmdline);
+
+int is_comment(char *cmdline);
+
+int processCmds(char **arr, char *cmdline, char **argv, pdir_t **dirHead, char *envp[], alias **aliasHead, char *pathValcpy);
 
 char **createArgsArr(char *cmdline);
 
-int print_error_message(char **argv, char **arr);
+void free_arr(char **arr);
 
 int countArgs(char **arr);
 
 char *validateCmd(char **cmd, pdir_t **dirHead, alias **aliasHead);
 
-int executeCmds(char *cmdline, char *cmd, char *fline, char **arr, pdir_t **dirHead, alias **aliasHead, char *envp[], char *pathValcpy);
+int executeCmds(char *cmdline, char *cmd, char **arr, pdir_t **dirHead, alias **aliasHead, char *envp[], char *pathValcpy);
 
 pdir_t *add_dir(pdir_t **path_head, char *dir);
 
