@@ -5,10 +5,9 @@
 * Included the `isNewline()`, `isShellbuiltin()` functions to the non-interactive mode
 
 
-## Task 4
+## Task 4 & 8
 * Handle wrong `status` format
 * Handle exiting with `status` of the last command instead of `EXIT_SUCCESS`
-
 
 ## Task 3
 * Have to check if pointers path_val, pathValcpy are NULL
