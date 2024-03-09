@@ -49,9 +49,13 @@ int _INT_MODE(char **argv, char *envp[], pdir_t **dirHead, char *pathValcpy);
 
 int _NON_INT_MODE(char **argv, char *envp[], pdir_t **dirHead, char *pathValcpy);
 
+int _FILE_MODE(char **argv, char *envp[], pdir_t **dirHead, char *pathValcpy);
+
 void ctrlC_handler(int signum);
 
 char *promptline(char *line);
+
+char *readfileline(char *line);
 
 int isNewline(char *line);
 
@@ -85,7 +89,7 @@ void _exit_shell_wstatus(char **cmdline, int status, pdir_t **dirHead, char *pat
 
 void _exit_shell(char **cmdline, int cmdstatus, pdir_t **dirHead, char *pathValcpy, alias **aliasHead);
 
-int analyzeCmds(char *cmdline, char **argv, pdir_t **dirHead, char *envp[], alias **aliasHead, char *pathValcpy);
+int analyzeCmds(char *cmdline, int cmdstatus, char **argv, pdir_t **dirHead, char *envp[], alias **aliasHead, char *pathValcpy);
 
 int is_semi(char *cmdline);
 
@@ -98,6 +102,14 @@ int is_logical_and(char *cmdline);
 int is_logical_or(char *cmdline);
 
 int processCmds_withLogOp(char *cmdline, char **argv, pdir_t **dirHead, char *envp[], alias **aliasHead, char *pathValcpy);
+
+int is_dollar(char *cmdline);
+
+int processCmds_withDollar(char *cmdline, int cmdstatus, char **argv, pdir_t **dirHead, char *envp[], alias **aliasHead, char *pathValcpy);
+
+char *expand_var(char *c, int cmdstatus);
+
+char *int_to_str(int i, char fullCmd[]);
 
 int is_comment(char *cmdline);
 

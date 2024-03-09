@@ -25,14 +25,20 @@ int main(int ac, char *argv[], char *envp[])
 		dirList = makePathList(pathValcpy);
 
 	/*unsetenv("PATH");*/
-	if (ac != 1)
+	/*if (ac != 1)
 	{
 		fprintf(stderr, " %s: 0: cannot open %s: No such file\n", argv[0], argv[1]);
 		exit(EXIT_SUCCESS);
+	}*/
+
+	if (ac == 2)
+	{
+		_FILE_MODE(argv, envp, &dirList, pathValcpy);
+		printf("\n");
 	}
 
 	/* Interactive Mode */
-	if (isatty(STDIN_FILENO))
+	else if (isatty(STDIN_FILENO))
 	{
 		_INT_MODE(argv, envp, &dirList, pathValcpy);
 		printf("\n");
@@ -60,6 +66,7 @@ int _INT_MODE(char **argv, char *envp[], pdir_t **dirHead, char *pathValcpy)
 {
 	char *line = NULL;
 	int status = 0;
+	int cmdstatus = 0;
 	alias *aliasHead = NULL;
 
 	if ((signal(SIGINT, ctrlC_handler)) == SIG_ERR)
@@ -75,11 +82,18 @@ int _INT_MODE(char **argv, char *envp[], pdir_t **dirHead, char *pathValcpy)
 		status = isShellBuiltin(&line, status, argv,
 				dirHead, pathValcpy, &aliasHead);
 		if (status == 0 || status == 2)
+		{
+			cmdstatus = status;
 			continue;
+		}
 
 		/* Command is a file or executable */
 		else
-			status = analyzeCmds(line, argv, dirHead, envp, &aliasHead, pathValcpy);
+		{
+			status = analyzeCmds(line, cmdstatus, argv, dirHead,
+					envp, &aliasHead, pathValcpy);
+			cmdstatus = status;
+		}
 
 	}
 	printf("\n");
@@ -121,7 +135,8 @@ int _NON_INT_MODE(char **argv, char *envp[],
 		if (status == 0 || status == 2)
 			continue;
 		else
-			status = analyzeCmds(line, argv, dirHead, envp, &aliasHead, pathValcpy);
+			status = analyzeCmds(line, status, argv, dirHead,
+					envp, &aliasHead, pathValcpy);
 	}
 
 	/* Free up allocated memory */
@@ -132,6 +147,72 @@ int _NON_INT_MODE(char **argv, char *envp[],
 	exit(status);
 }
 
+
+/**
+ * _FILE_MODE - runs commands in file passed as argument to the shell program
+ * @argv: the array of command line arguments
+ * @dirHead: pointer to a linkded list of directories in PATH
+ * @pathValcpy: copy of directory string in PATH
+ * @envp: the array of environment variables
+ *
+ * Return: 0
+ */
+
+
+int _FILE_MODE(char **argv, char *envp[], pdir_t **dirHead, char *pathValcpy)
+{
+	char *line = NULL;
+	size_t n = 0;
+	int status = 0;
+	alias *aliasHead = NULL;
+	FILE *file_stream;
+
+	file_stream = fopen(argv[1], "r");
+	if (file_stream == NULL)
+	{
+		fprintf(stderr, "%s: 0: cannot open %s: No such file\n", argv[0], argv[1]);
+		free_pdir(*dirHead);
+		free(pathValcpy);
+		exit(2);
+	}
+
+
+	/*if ((signal(SIGINT, ctrlC_handler)) == SIG_ERR)
+		perror("error");*/
+
+	/*while ((line = readfileline(line)) != NULL)*/
+	while (getline(&line, &n, file_stream) != -1)
+        {
+		/* Command is a newline or empty string */
+		if (isNewline(line) || isEmpty(line))
+			continue;
+
+		/* Command is a shell builtin */
+		status = isShellBuiltin(&line, status, argv,
+				dirHead, pathValcpy, &aliasHead);
+		if (status == 0 || status == 2)
+			continue;
+		
+		/* Command is a file or executable */
+		else
+			status = analyzeCmds(line, status, argv, dirHead,
+					envp, &aliasHead, pathValcpy);
+		/*if (line != NULL)
+		{
+			free(line);
+			line = NULL;
+			n = 0;
+		}*/
+	}
+
+	/* Free up allocated memory space */
+	free(line);
+	fclose(file_stream);
+	free(pathValcpy);
+	free_pdir(*dirHead);
+	free_alias(aliasHead);
+	exit(status);
+}
 
 /**
  * ctrlC_handler - handles the ctrl + C signal
