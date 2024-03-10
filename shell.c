@@ -173,7 +173,7 @@ int _FILE_MODE(char **argv, char *envp[], pdir_t **dirHead, char *pathValcpy)
 		fprintf(stderr, "%s: 0: Can't open %s\n", argv[0], argv[1]);
 		free_pdir(*dirHead);
 		free(pathValcpy);
-		exit(2);
+		exit(127);
 	}
 
 
