@@ -111,7 +111,11 @@ char *expand_var(char *c, int cmdstatus);
 
 char *int_to_str(int i);
 
+int count_digit(int i);
+
 int is_comment(char *cmdline);
+
+int processCmds_withHash(char *cmdline, char **argv, pdir_t **dirHead, char *envp[], alias **aliasHead, char *pathValcpy);
 
 int processCmds(char **arr, char *cmdline, char **argv, pdir_t **dirHead, char *envp[], alias **aliasHead, char *pathValcpy);
 

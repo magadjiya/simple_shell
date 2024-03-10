@@ -178,7 +178,7 @@ int _FILE_MODE(char **argv, char *envp[], pdir_t **dirHead, char *pathValcpy)
 
 
 	while (getline(&line, &n, file_stream) != -1)
-        {
+	{
 		/* Command is a newline or empty string */
 		if (isNewline(line) || isEmpty(line))
 			continue;
@@ -188,17 +188,11 @@ int _FILE_MODE(char **argv, char *envp[], pdir_t **dirHead, char *pathValcpy)
 				dirHead, pathValcpy, &aliasHead);
 		if (status == 0 || status == 2)
 			continue;
-		
+
 		/* Command is a file or executable */
 		else
 			status = analyzeCmds(line, status, argv, dirHead,
 					envp, &aliasHead, pathValcpy);
-		/*if (line != NULL)
-		{
-			free(line);
-			line = NULL;
-			n = 0;
-		}*/
 	}
 
 	/* Free up allocated memory space */

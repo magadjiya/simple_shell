@@ -29,6 +29,9 @@ int analyzeCmds(char *cmdline, int cmdstatus, char **argv, pdir_t **dirHead,
 	else if (is_dollar(cmdline) != 0)
 		status = processCmds_withDollar(cmdline, cmdstatus, argv, dirHead,
 				envp, aliasHead, pathValcpy);
+	else if (is_comment(cmdline) != 0)
+		status = processCmds_withHash(cmdline, argv, dirHead,
+				envp, aliasHead, pathValcpy);
 	else
 	{
 		arr = createArgsArr(cmdline);
