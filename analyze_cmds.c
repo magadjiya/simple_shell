@@ -3,6 +3,7 @@
 /**
  * analyzeCmds - analyses the commands to know how to process them
  * @cmdline: the line of command to process
+ * @cmdstatus: the status of the last command run
  * @argv: array of arguments to shell program
  * @dirHead: the head of the path directory linked list
  * @envp: the array of environment variables
@@ -12,7 +13,7 @@
  * Return: 0 on success, -1 on failure
  */
 
-int analyzeCmds(char *cmdline, char **argv, pdir_t **dirHead,
+int analyzeCmds(char *cmdline, int cmdstatus, char **argv, pdir_t **dirHead,
 		char *envp[], alias **aliasHead, char *pathValcpy)
 {
 	int status;
@@ -24,6 +25,9 @@ int analyzeCmds(char *cmdline, char **argv, pdir_t **dirHead,
 				envp, aliasHead, pathValcpy);
 	else if (is_logical_op(cmdline) != 0)
 		status = processCmds_withLogOp(cmdline, argv, dirHead,
+				envp, aliasHead, pathValcpy);
+	else if (is_dollar(cmdline) != 0)
+		status = processCmds_withDollar(cmdline, cmdstatus, argv, dirHead,
 				envp, aliasHead, pathValcpy);
 	else
 	{

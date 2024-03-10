@@ -24,13 +24,6 @@ int main(int ac, char *argv[], char *envp[])
 	if (pathValcpy != NULL)
 		dirList = makePathList(pathValcpy);
 
-	/*unsetenv("PATH");*/
-	/*if (ac != 1)
-	{
-		fprintf(stderr, " %s: 0: cannot open %s: No such file\n", argv[0], argv[1]);
-		exit(EXIT_SUCCESS);
-	}*/
-
 	if (ac == 2)
 	{
 		_FILE_MODE(argv, envp, &dirList, pathValcpy);
@@ -122,6 +115,7 @@ int _NON_INT_MODE(char **argv, char *envp[],
 	size_t n = 0;
 	char *line = NULL;
 	int status = 0;
+	int cmdstatus = 0;
 	alias *aliasHead = NULL;
 
 	while ((getline(&line, &n, stdin)) != -1)
@@ -133,10 +127,16 @@ int _NON_INT_MODE(char **argv, char *envp[],
 		status = isShellBuiltin(&line, status, argv,
 				dirHead, pathValcpy, &aliasHead);
 		if (status == 0 || status == 2)
+		{
+			cmdstatus = status;
 			continue;
+		}
 		else
-			status = analyzeCmds(line, status, argv, dirHead,
+		{
+			status = analyzeCmds(line, cmdstatus, argv, dirHead,
 					envp, &aliasHead, pathValcpy);
+			cmdstatus = status;
+		}
 	}
 
 	/* Free up allocated memory */
@@ -177,10 +177,6 @@ int _FILE_MODE(char **argv, char *envp[], pdir_t **dirHead, char *pathValcpy)
 	}
 
 
-	/*if ((signal(SIGINT, ctrlC_handler)) == SIG_ERR)
-		perror("error");*/
-
-	/*while ((line = readfileline(line)) != NULL)*/
 	while (getline(&line, &n, file_stream) != -1)
         {
 		/* Command is a newline or empty string */

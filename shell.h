@@ -109,7 +109,7 @@ int processCmds_withDollar(char *cmdline, int cmdstatus, char **argv, pdir_t **d
 
 char *expand_var(char *c, int cmdstatus);
 
-char *int_to_str(int i, char fullCmd[]);
+char *int_to_str(int i);
 
 int is_comment(char *cmdline);
 
