@@ -170,7 +170,7 @@ int _FILE_MODE(char **argv, char *envp[], pdir_t **dirHead, char *pathValcpy)
 	file_stream = fopen(argv[1], "r");
 	if (file_stream == NULL)
 	{
-		fprintf(stderr, "%s: 0: cannot open %s: No such file\n", argv[0], argv[1]);
+		fprintf(stderr, "%s: 0: Can't open %s\n", argv[0], argv[1]);
 		free_pdir(*dirHead);
 		free(pathValcpy);
 		exit(2);
